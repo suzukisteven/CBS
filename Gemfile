@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.0'
 
-# Bella added these
+# Bella added these - OK
 gem "clearance"
 gem "figaro"
 gem "omniauth"

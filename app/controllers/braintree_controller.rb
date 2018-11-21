@@ -13,15 +13,14 @@ class BraintreeController < ApplicationController
 
   def checkout_one
     nonce_from_the_client = params[:checkout_form][:payment_method_nonce]
-    
+
     customer = current_user.find_or_create_braintree_customer(nonce_from_the_client)
 
     result = Braintree::Subscription.create(
       :plan_id => 'hr8m',
       :payment_method_token => customer.payment_methods[0].token
       )
-    byebug
-      
+
     if result.success?
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
@@ -31,7 +30,7 @@ class BraintreeController < ApplicationController
 
   def checkout_six
     nonce_from_the_client = params[:checkout_form][:payment_method_nonce]
-    
+
     customer = current_user.find_or_create_braintree_customer(nonce_from_the_client)
 
     result = Braintree::Subscription.create(
@@ -39,7 +38,7 @@ class BraintreeController < ApplicationController
       :payment_method_token => customer.payment_methods[0].token
       )
     byebug
-      
+
     if result.success?
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
@@ -49,7 +48,7 @@ class BraintreeController < ApplicationController
 
   def checkout
     nonce_from_the_client = params[:checkout_form][:payment_method_nonce]
-    
+
     customer = current_user.find_or_create_braintree_customer(nonce_from_the_client)
 
     result = Braintree::Subscription.create(
@@ -57,7 +56,7 @@ class BraintreeController < ApplicationController
       :payment_method_token => customer.payment_methods[0].token
       )
     byebug
-      
+
     if result.success?
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
