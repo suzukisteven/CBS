@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'braintree/new_one'
   get 'welcome/index'
   root 'welcome#index'
+
+  get '/index' => "audio#index"
+
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "clearance/sessions", only: [:create]
 
