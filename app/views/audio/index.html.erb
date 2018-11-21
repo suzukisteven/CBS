@@ -1,0 +1,187 @@
+<div class="container">
+    <h1>Emotionly &copy; Voice Sentiment Analysis BY CBS</h1>
+    <hr />
+
+    <form id="form" class="form-horizontal">
+        <div class="form-group">
+            <label for="input_file" class="col-sm-2 control-label">Upload Audio File</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" id="input_file" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-danger">Start Analysis</button>
+            </div>
+        </div>
+    </form>
+
+    <hr class="my-4">
+
+    <div class="panel panel-default pt-3">
+        <div class="panel-heading text-center">Analysis Report</div>
+        <div class="card">
+            <ul id="result"></ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    if (window.File && window.FileReader && window.FileList && window.Blob)
+    {
+        console.log("This browser confirm window.File && window.FileReader !!!");
+    }
+    else
+    {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+
+    options = {
+        url: {
+            tokenUrl: 'https://token.beyondverbal.com/token',
+            serverUrl: 'https://apiv5.beyondverbal.com/v5/recording/'
+
+        },
+        apiKey: $("#api_key").val(),
+        token: ''
+
+    };
+
+    $(function ()
+    {
+        $("#form").validate({
+            submitHandler: function (form)
+            {
+                $("#submit").attr("disabled", true).text("Analyze...");
+                $('#result').html('');
+
+                authenticate()
+                    .error(function (jqXHR, textStatus, errorThrown)
+                    {
+                        Show(JSON.stringify(jqXHR) + errorThrown);
+                    })
+                   .success(function (data)
+                   {
+                       console.log('sucess::' + JSON.stringify(data));
+                       var token = JSON.parse(data);
+                       options.token = token.access_token;
+                       uploadFile(form[0].files[0]);
+                   });
+            }
+        });
+
+    });
+
+    function uploadFile(file)
+    {
+        if (typeof FileReader !== "undefined")
+        {
+            var reader = new FileReader();
+            reader.onload = function (e)
+            {
+                analyzeFile($("#api_key").val(), e.target.result)
+                    .done(function (res)
+                    {
+                        Show(res);
+                        $("#submit").attr("disabled", false).text("Start");
+                    })
+                    .fail(function (err)
+                    {
+                        Show(err);
+                        $("#submit").attr("disabled", false).text("Start");
+                    });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    }
+
+    function authenticate()
+    {
+        console.log('url token:' + options.url.tokenUrl);
+        options.apiKey = "b357f856-7696-429d-afaa-b8f57113acf6";
+        // options.apiKey = $("#api_key").val();
+        return $.ajax({
+            url: options.url.tokenUrl,
+            type: "POST",
+            dataType: 'text',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                grant_type: "client_credentials",
+                apiKey: options.apiKey
+            }
+        });
+
+    }
+
+    function analyzeFile(apiKey, content, interval)
+    {
+        var dfd = $.Deferred();
+        var startUrl = options.url.serverUrl+'start';
+
+        //console.log('url::' + startUrl + ' token:' + options.token);
+
+        $.ajax({
+            url: startUrl,
+            headers: { 'Authorization': "Bearer " + options.token },
+            type: "POST",
+            cache: false,
+            data: JSON.stringify({ dataFormat: { type: "WAV" } }),
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'text'
+        })
+        .then(function (data)
+        {
+            Show(data);
+
+            var recID = data.recordingId ? data.recordingId : JSON.parse(data).recordingId;
+            //console.log('recid::' + recID);
+            var upStreamUrl = options.url.serverUrl + recID;
+            //post content for analysis
+            $.ajax({
+                url: upStreamUrl,
+                headers: { 'Authorization': "Bearer " + options.token },
+                data: content,
+                contentType: false,
+                processData: false,
+                cache: false,
+                dataType: 'text',
+                type: "POST"
+            })
+            .then(dfd.resolve, dfd.reject);
+
+        }, dfd.reject);
+
+        return dfd.promise().always(function ()
+        {
+        });
+    }
+    function Show(json)
+    {
+        var x = JSON.parse(json);
+        // var y = (x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)
+        console.log(x.result);
+        if(x.result){console.log(x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)};
+        if(x.result){console.log(x.result.analysisSummary.AnalysisResult.Emotion_group.ModePct)};
+        if(x.result){console.log(x.result.analysisSummary.AnalysisResult.Arousal.Mode)};
+        if(x.result){console.log(x.result.analysisSummary.AnalysisResult.Temper.Mode)};
+        if(x.result){console.log(x.result.analysisSummary.AnalysisResult.Valence.Mode)};
+
+        // $('#result').append("<li>" + JSON.stringify(json) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Emotion Group: " + (x.result.analysisSummary.AnalysisResult.Emotion_group.Mode) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Emotion Group Score: " + (x.result.analysisSegments[0].analysis["Emotion_group"].Score) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Confidence Percentage: " + (x.result.analysisSummary.AnalysisResult.Emotion_group.ModePct) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Arousal: " + (x.result.analysisSummary.AnalysisResult.Arousal.Mode) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Arousal Score: " + (x.result.analysisSegments[0].analysis["Arousal"].Score) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Temper: " + (x.result.analysisSummary.AnalysisResult.Temper.Mode) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Temper Score: " + (x.result.analysisSegments[0].analysis["Temper"].Score) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Sadness/Displeasure: " + (x.result.analysisSummary.AnalysisResult["Sadness/Displeasure"].Mode) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Sadness/Displeasure Score: " + (x.result.analysisSegments[0].analysis["Sadness/Displeasure"].Score) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Valence Score: " + (x.result.analysisSegments[0].analysis["Valence"].Score) + "</li>");
+        if(x.result)$('#result').append("<li>" + "Sadness/Displeasure: " + (x.result.analysisSummary.AnalysisResult["Sadness/Displeasure"].Mode) + "</li>");
+
+        // $('#result').append("<li>" + x.result.analysisSummary.AnalysisResult.Emotion_group.Mode);
+        // console.log(x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)
+    }
+</script>
