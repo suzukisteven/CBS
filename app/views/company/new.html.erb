@@ -1,0 +1,17 @@
+<h1>Add company</h1>
+
+<%= form_with scope: :company, url: companies_path, :html => {:multipart => true}, local: true do |form| %>
+  <p>
+    <%= form.label :"Company Name" %><br>
+    <%= form.text_field :name %>
+  </p>
+ 
+  <p>
+    <%= form.label :"Description" %><br>
+    <%= form.text_field :description %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
