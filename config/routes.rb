@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, controller:'users', only: [:show]
+  resources :companies, controller:'company', only: [:create, :new, :edit, :show, :update]
 
   # Google Oauth Callback Route
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"

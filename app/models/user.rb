@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Clearance::User
   has_many :authentications, dependent: :destroy
+  belongs_to :company, optional: true
   has_many :databases, dependent:  :destroy
   has_many :videos, dependent:  :destroy
   enum position: { manager: 0, employee: 1}
