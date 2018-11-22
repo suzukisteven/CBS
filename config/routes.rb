@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # Individual pages Routes
   get '/index' => "audio#index"
   get "/show" => "dashboard#show", as: "dashboard"
-
+  get '/video' => "video#show"
   # Braintree Payment Routes
   get 'braintree/new'
   get 'braintree/new_six'

@@ -1,93 +1,152 @@
-
-    <link rel="stylesheet" href="style.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
-  
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <header>
         <h1>CBS EMOTION ANALYZER</h1>
     </header>
     <main>
-        <!-- <p><button id="btnStart">START RECORDING</button><br/>
-        <button id="btnStop">STOP RECORDING</button></p>
-         -->
         <video controls></video>
-        
-        <!-- <video id="vid2" controls></video> -->
         <canvas style="display:none;"></canvas>
- <button id="screenshot-button">START</button>
+        <button id="screenshot-button">START</button>
         <button id="end_button">DONE</button>
                 <img id="screenshot-img">
-
-  <h2>Face Rectangle</h2>
-  <ul id="faceRectangle">
-  <!-- Will populate list with response content -->
-  </ul>
+                <style> #screenshot-img{display:none}</style>
+       <div class="col-md-10 m-0 p-0 w-100">
+         <div class="container mt-4 mb-4">
+           <div class="row">
+             <div class="col-md-6 container">
+               <h3>Customer Service Rep.</h3>
+               <h4><i class="fas fa-map-marker-alt mr-3"></i>William Smith, <em>NEXT Academy</em></h4>
+             </div>
+             <div class="col-md-6 container">
+               <button class="btn btn-outline-danger btn-sm mt-3" type="button" name="button" style="float: right;">SPANK</button>
+               <button class="btn btn-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">Track</button>
+             </div>
+           </div>
+         </div>
+         <canvas id="myChart" class=""></canvas>
+    </div>
+        <%# <h2>Face Rectangle</h2>
+            <ul id="faceRectangle">
+            </ul>
+        <h2>Emotions</h2>
+            <ul id="scores">
+            </ul> %>
   
-  <h2>Emotions</h2>
-  <ul id="scores">
-  <!-- Will populate list with response content -->
-  </ul>
-  
-        <!-- could save to canvas and do image manipulation and saving too -->
     </main>    
+    
     <script >
-const captureVideoButton = document.querySelector('#screenshot .capture-button');
-const screenshotButton = document.querySelector('#screenshot-button');
-const video = document.querySelector('#screenshot video');
-const end = document.querySelector('#end_button');
-var time_second = 0;
+        const captureVideoButton = document.querySelector('#screenshot .capture-button');
+        const screenshotButton = document.querySelector('#screenshot-button');
+        const video = document.querySelector('#screenshot video');
+        const end = document.querySelector('#end_button');
+        const img = document.querySelector('#screenshot-img');
+        const canvas = document.createElement('canvas');
+        let chartCanvas = document.getElementById('myChart');
+        let ctx = chartCanvas.getContext('2d');       
+        var time_second = 0;
 
-const img = document.querySelector('#screenshot-img');
-const canvas = document.createElement('canvas');
+        var data = {
+                    labels: [0],
+                    datasets: [{
+                    label: "Happiness",
+                    lineTension: 0.1,
+                    borderColor: 'Orange',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                }, {
+                    label: "Sadness",
+                    lineTension: 0.1,
+                    borderColor: 'cornflowerblue',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                }, {
+                    label: "Anger",
+                    lineTension: 0.1,
+                    borderColor: 'red',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                }, {
+                    label: "Contempt",
+                    lineTension: 0.1,
+                    borderColor: 'green',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                }, {
+                     label: "Disgust",
+                     lineTension: 0.1,
+                     borderColor: 'purple',
+                     backgroundColor: 'rgba(1,1,1,0)',
+                     data: [0],
+                }, {
+                     label: "Fear",
+                     lineTension: 0.1,
+                     borderColor: 'pink',
+                     backgroundColor: 'rgba(1,1,1,0)',
+                     data: [0],
+                }, {
+                    label: "Neutral",
+                    lineTension: 0.1,
+                    borderColor: 'grey',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                }, {
+                    label: "Surprise",
+                    lineTension: 0.1,
+                    borderColor: 'yellow',
+                    backgroundColor: 'rgba(1,1,1,0)',
+                    data: [0],
+                    }
+                  ]
+                };
 
-let constraintObj = {
-    audio: false,
-    video: {
-        facingMode: "user",
-        width: { min: 640, ideal: 500, max: 1920 },
-        height: { min: 480, ideal: 500, max: 1080 }
-    }
-};
-// width: 1280, height: 720  -- preference only
-// facingMode: {exact: "user"}
-// facingMode: "environment"
-
-//handle older browsers that might implement getUserMedia in some way
-if (navigator.mediaDevices === undefined) {
-    navigator.mediaDevices = {};
-    navigator.mediaDevices.getUserMedia = function (constraintObj) {
-        let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        if (!getUserMedia) {
-            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-        }
-        return new Promise(function (resolve, reject) {
-            getUserMedia.call(navigator, constraintObj, resolve, reject);
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: data
         });
-    }
-} else {
-    navigator.mediaDevices.enumerateDevices()
-        .then(devices => {
-            devices.forEach(device => {
-                console.log(device.kind.toUpperCase(), device.label);
-                //, device.deviceId
-            })
-        })
-        .catch(err => {
-            console.log(err.name, err.message);
-        })
-}
-navigator.mediaDevices.getUserMedia(constraintObj)
-    .then(function (mediaStreamObj) {
-        //connect the media stream to the first video element
-        let video = document.querySelector('video');
-        if ("srcObject" in video) {
 
+        let constraintObj = {
+            audio: false,
+            video: {
+                facingMode: "user",
+                width: { min: 640, ideal: 500, max: 1920 },
+                height: { min: 480, ideal: 500, max: 1080 }
+            }
+        };
+
+
+        //handle older browsers that might implement getUserMedia in some way
+        if (navigator.mediaDevices === undefined) {
+            navigator.mediaDevices = {};
+            navigator.mediaDevices.getUserMedia = function (constraintObj) {
+                let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                if (!getUserMedia) {
+                    return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+                }
+                return new Promise(function (resolve, reject) {
+                    getUserMedia.call(navigator, constraintObj, resolve, reject);
+                });
+            }
+        } else {
+            navigator.mediaDevices.enumerateDevices()
+                .then(devices => {
+                    devices.forEach(device => {
+                        console.log(device.kind.toUpperCase(), device.label);
+                        //, device.deviceId
+                    })
+                })
+                .catch(err => {
+                    console.log(err.name, err.message);
+                })
+        }
+            navigator.mediaDevices.getUserMedia(constraintObj)
+            .then(function (mediaStreamObj) {
+            //connect the media stream to the first video element
+             let video = document.querySelector('video');
+             if ("srcObject" in video) {
             screenshotButton.onclick = video.onclick = function () {
-
-                var myVar = setInterval(myTimer, 2000); //TIME 10seconds
-
+            var myVar = setInterval(myTimer, 3100); //TIME 10seconds
+                
                 function myTimer() {
-                    time_second = 2 + time_second;
+                    time_second = 3 + time_second;
 
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
@@ -95,10 +154,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                     // Other browsers will fall back to image/png
                     img.src = canvas.toDataURL('image/png');
                     let photo = canvas.toDataURL('image/webp');
-                    console.log(photo);
-
                     // No query string parameters for this API call.
-
                     makeblob = function (dataURL) {
                         var BASE64_MARKER = ';base64,';
                         if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -117,11 +173,9 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                         for (var i = 0; i < rawLength; ++i) {
                             uInt8Array[i] = raw.charCodeAt(i);
                         }
-
                         return new Blob([uInt8Array], { type: contentType });
                     }
                     var params = {};
-                    console.log(makeblob(photo))
                     $.ajax({
                         // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
                         //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the
@@ -148,47 +202,62 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                         var faceRectangleList = $('#faceRectangle');
 
                         // Append to DOM
-                        for (var prop in faceRectangle) {
+                        <%# for (var prop in faceRectangle) {
                             faceRectangleList.append("<li> " + prop + ": " + faceRectangle[prop] + "</li>");
                         }
-                        faceRectangleList.append("<hr>")
+                        faceRectangleList.append("<hr>") %>
                         // Get emotion confidence scores
                         var scores = (data[0].scores);
                         var scoresList = $('#scores');
-                        scoresList.append((time_second) + "SECONDS");
+                         <%# console.log(scores.anger*100);
+                        scoresList.append((time_second) + "SECONDS"); %>
                         // Append to DOM
-                        for (var prop in scores) {
+                        <%# for (var prop in scores) {
                             scoresList.append("<li> " + prop + ": " + (scores[prop] * 100).toFixed(2) + "</li>");
-                        }
+                        } %>
+                          
+                        // let myChart = document.getElementById('myChart').getContext('2d');
+                    
+                        // Global Options ------------------------------------------
+                        // bar, pie, line, horizontalBar, doughnut, radar, polarArea
+                        // Chart.defaults.global.defaultFontFamily = 'Lato';
+                        // Chart.defaults.global.defaultFontSize = '14';
+                        // Charts.defaults.global.defaultFontColor = '#000';
+                    
+                    
+                        //test for button onclick to add new data point
+                        myChart.data.datasets[0].data.push(scores.happiness*100);
+                        myChart.data.datasets[1].data.push(scores.sadness*100);
+                        myChart.data.datasets[2].data.push(scores.anger*100);
+                        myChart.data.datasets[3].data.push(scores.contempt*100);
+                        myChart.data.datasets[4].data.push(scores.disgust*100);
+                        myChart.data.datasets[5].data.push(scores.fear*100);
+                        myChart.data.datasets[6].data.push(scores.neutral*100);
+                        myChart.data.datasets[7].data.push(scores.surprise*100);
+                        myChart.data.labels.push(time_second);
+                        myChart.update();
                         scoresList.append("<hr>");
-                    }).fail(function (err) {
+                        }).fail(function (err) {
                         alert("Error: " + JSON.stringify(err));
-                    });
-                };
-                end.onclick = function () {
-                    clearInterval(myVar);
-                }
-                video.srcObject = mediaStreamObj;
+                        });
+                        };
+              
+                         end.onclick = function () {
+                             clearInterval(myVar);
+                         }
+                         video.srcObject = mediaStreamObj;
             }
-
         }
 
         else {
             //old version
             video.src = window.URL.createObjectURL(mediaStreamObj);
         }
-
         video.onloadedmetadata = function (ev) {
-            //show in the video element what is being captured by the webcam
-            video.play();
-
-
+         //show in the video element what is being captured by the webcam
+        video.play();
         };
-
         //add listeners for saving video/audio
-
-
-
-    })
-
-    </script>
+        })
+        </script>
+       

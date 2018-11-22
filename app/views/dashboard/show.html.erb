@@ -39,12 +39,15 @@
         </div>
       </div>
       <canvas id="myChart" class=""></canvas>
+      <input class="btn btn-success" type="button" name="" value="Add Dummy Data" onclick = "addData()">
     </div>
 
     <script type="text/javascript">
     // Add turbolinks so it initializes when page loads.
     // Add jsPDF
-    let myChart = document.getElementById('myChart').getContext('2d');
+    let canvas = document.getElementById('myChart');
+    let ctx = canvas.getContext('2d');
+    // let myChart = document.getElementById('myChart').getContext('2d');
 
     // Global Options ------------------------------------------
     // bar, pie, line, horizontalBar, doughnut, radar, polarArea
@@ -52,37 +55,42 @@
     // Chart.defaults.global.defaultFontSize = '14';
     // Charts.defaults.global.defaultFontColor = '#000';
 
-    let fakeData = new Chart(myChart, {
-      type: 'line',
-      data: {
-        labels: ['Steven', 'Bella', 'Calvin', 'Er-Whey', 'Matt', 'Emika', 'Dustin'],
-        datasets: [{
-          label: 'Score',
-          data: [
-            2,
-            54822,
-            54822,
-            99999,
-            88888,
-            99999,
-            83020
-          ],
-          borderColor:'cornflowerblue',
-          backgroundColor: 'rgba(1,1,1,0)',
-          lineTension:0
-        }]
-      },
-      options: {
-        title:{
-          display:false,
-          text:'Coding Enlightenment',
-          fontSize:25
-        },
-        legend:{
-          position:'right'
-        }
+    var data = {
+      labels: ['5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60'],
+      datasets: [{
+        label: "Happiness",
+        lineTension: 0.1,
+        borderColor: 'Orange',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [65, 99, 32, 33, 45, 40, 50, 50, 50, 73, 10, 50],
+      }, {
+        label: "Sadness",
+        lineTension: 0.1,
+        borderColor: 'cornflowerblue',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 34, 46, 55, 40, 20, 50, 50, 30, 20, 10],
+      }, {
+        label: "Anger",
+        lineTension: 0.1,
+        borderColor: 'red',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
       }
-    });
+    ]
+  };
+
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data
+  });
+
+  // test for button onclick to add new data point
+  function addData(){
+    myChart.data.datasets[0].data.push(50);
+    myChart.data.labels.push("Newly added");
+    console.log(data.length)
+    myChart.update();
+  }
 
   </script>
   </div>
