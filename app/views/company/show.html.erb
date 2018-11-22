@@ -1,1 +1,12 @@
+<img src=<%= @company.image_url(:thumb).to_s %>>
+
 <h1><%=@company.name%></h1>
+
+<h3>Manager:<%=@manager.firstname%></h3>
+
+<h3>Employees:</h3>
+<ul>
+<% @employees.each do |e| %>
+   <li> <%= link_to e.firstname %></li><br>
+<% end %>
+<ul>

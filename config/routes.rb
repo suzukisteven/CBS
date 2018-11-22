@@ -16,8 +16,8 @@ Rails.application.routes.draw do
       only: [:create, :edit, :update]
   end
 
-  resources :users, controller:'users', only: [:show]
-  resources :companies, controller:'company', only: [:create, :new, :edit, :show, :update]
+  resources :users, controller:'users'
+  resources :companies, controller:'company'
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"

@@ -1,6 +1,6 @@
 <h1>Add company</h1>
 
-<%= form_with scope: :company, url: companies_path, local: true do |form| %>
+<%= form_with scope: :company, url: companies_path, :html => {:multipart => true}, local: true do |form| %>
   <p>
     <%= form.label :"Company Name" %><br>
     <%= form.text_field :name %>
@@ -11,13 +11,13 @@
     <%= form.text_field :description %>
   </p>
   <p>
-  <%= form.label :"Employees" %><br>
+  <%= form.label :"Add Employees" %><br>
   <%= form.select :user, options_for_select(@users_options), {:include_blank => false}, {:multiple => true} %> 
-    <%# @users.each do |p| %>
-      <%#= content_tag(:option, "#{p.firstname}", value: p.id, {:multiple => true}) %>
-    <%# end %>
-  <%# end %>
-  </p>                               
+  </p>    
+
+  <p>
+    <%= form.file_field :image %>
+  </p>                           
 
   <p>
     <%= form.submit %>
