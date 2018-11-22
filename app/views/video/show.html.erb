@@ -14,8 +14,9 @@
         
         <!-- <video id="vid2" controls></video> -->
         <canvas style="display:none;"></canvas>
-        <button id="screenshot-button">Capture!</button>
-        <img id="screenshot-img">
+ <button id="screenshot-button">START</button>
+        <button id="end_button">DONE</button>
+                <img id="screenshot-img">
 
   <h2>Face Rectangle</h2>
   <ul id="faceRectangle">
@@ -30,167 +31,164 @@
         <!-- could save to canvas and do image manipulation and saving too -->
     </main>    
     <script >
-    const captureVideoButton =  document.querySelector('#screenshot .capture-button');
+const captureVideoButton = document.querySelector('#screenshot .capture-button');
 const screenshotButton = document.querySelector('#screenshot-button');
 const video = document.querySelector('#screenshot video');
+const end = document.querySelector('#end_button');
+var time_second = 0;
 
 const img = document.querySelector('#screenshot-img');
 const canvas = document.createElement('canvas');
 
-        let constraintObj = { 
-            audio: false, 
-            video: { 
-                facingMode: "user", 
-                width: { min: 640, ideal: 500, max: 1920 },
-                height: { min: 480, ideal: 500, max: 1080 } 
-            } 
-        }; 
-        // width: 1280, height: 720  -- preference only
-        // facingMode: {exact: "user"}
-        // facingMode: "environment"
-        
-        //handle older browsers that might implement getUserMedia in some way
-        if (navigator.mediaDevices === undefined) {
-            navigator.mediaDevices = {};
-            navigator.mediaDevices.getUserMedia = function(constraintObj) {
-                let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-                if (!getUserMedia) {
-                    return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-                }
-                return new Promise(function(resolve, reject) {
-                    getUserMedia.call(navigator, constraintObj, resolve, reject);
-                });
-            }
-        }else{
-            navigator.mediaDevices.enumerateDevices()
-            .then(devices => {
-                devices.forEach(device=>{
-                    console.log(device.kind.toUpperCase(), device.label);
-                    //, device.deviceId
-                })
-            })
-            .catch(err=>{
-                console.log(err.name, err.message);
-            })
+let constraintObj = {
+    audio: false,
+    video: {
+        facingMode: "user",
+        width: { min: 640, ideal: 500, max: 1920 },
+        height: { min: 480, ideal: 500, max: 1080 }
+    }
+};
+// width: 1280, height: 720  -- preference only
+// facingMode: {exact: "user"}
+// facingMode: "environment"
+
+//handle older browsers that might implement getUserMedia in some way
+if (navigator.mediaDevices === undefined) {
+    navigator.mediaDevices = {};
+    navigator.mediaDevices.getUserMedia = function (constraintObj) {
+        let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
         }
-        navigator.mediaDevices.getUserMedia(constraintObj)
-        .then(function(mediaStreamObj) {
-            //connect the media stream to the first video element
-            let video = document.querySelector('video');
-            if ("srcObject" in video) {
-                 
-            screenshotButton.onclick = video.onclick = function() {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                // Other browsers will fall back to image/png
-                img.src = canvas.toDataURL('image/png');
-                let photo = canvas.toDataURL('image/webp');
-                                        console.log(photo);
-                                     
-                   // No query string parameters for this API call.
-            var params = { };
-
-            makeblob = function (dataURL) {
-                var BASE64_MARKER = ';base64,';
-                if (dataURL.indexOf(BASE64_MARKER) == -1) {
-                    var parts = dataURL.split(',');
-                    var contentType = parts[0].split(':')[1];
-                    var raw = decodeURIComponent(parts[1]);
-                    return new Blob([raw], { type: contentType });
-                }
-                var parts = dataURL.split(BASE64_MARKER);
-                var contentType = parts[0].split(':')[1];
-                var raw = window.atob(parts[1]);
-                var rawLength = raw.length;
-    
-                var uInt8Array = new Uint8Array(rawLength);
-    
-                for (var i = 0; i < rawLength; ++i) {
-                    uInt8Array[i] = raw.charCodeAt(i);
-                }
-    
-                return new Blob([uInt8Array], { type: contentType });
-            }
-
-            console.log(photo),
-            $.ajax({
-                // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
-                //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the
-                //   URL below with "westcentralus".
-                beforeSend: function(xhrObj){
-                    // Request headers, also supports "application/octet-stream"
-                    xhrObj.setRequestHeader("Content-Type","application/json");
-    
-                    // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","3c39f08246b1450cb6de1a4f49bccdae");
-                },
-                type: "POST",
-                url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
-                    processData: false,
-                    
-                data: makeblob('photo')
-        
-                // Request body
-    // dataSrc: $("#screenshot-img"),
-
-            }).done(function(data) {
-                // Get face rectangle dimensions
-                var faceRectangle = data[0].faceRectangle;
-                var faceRectangleList = $('#faceRectangle');
-    
-                // Append to DOM
-                for (var prop in faceRectangle) {
-                    faceRectangleList.append("<li> " + prop + ": " + faceRectangle[prop] + "</li>");
-                }
-    
-                // Get emotion confidence scores
-                var scores = data[0].scores;
-                var scoresList = $('#scores');
-    
-                // Append to DOM
-                for(var prop in scores) {
-                    scoresList.append("<li> " + prop + ": " + scores[prop] + "</li>")
-                }
-            }).fail(function(err) {
-                alert("Error: " + JSON.stringify(err));
-            });
-              };
-                video.srcObject = mediaStreamObj;
-           
-            }
-            else {
-                //old version
-                video.src = window.URL.createObjectURL(mediaStreamObj);
-            }
-            
-            video.onloadedmetadata = function(ev) {
-                //show in the video element what is being captured by the webcam
-                video.play();
-
-         
-            };
-            
-            //add listeners for saving video/audio
-            
-            
-           
+        return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraintObj, resolve, reject);
+        });
+    }
+} else {
+    navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            devices.forEach(device => {
+                console.log(device.kind.toUpperCase(), device.label);
+                //, device.deviceId
+            })
         })
-      
-        
-        /*********************************
-        getUserMedia returns a Promise
-        resolve - returns a MediaStream Object
-        reject returns one of the following errors
-        AbortError - generic unknown cause
-        NotAllowedError (SecurityError) - user rejected permissions
-        NotFoundError - missing media track
-        NotReadableError - user permissions given but hardware/OS error
-        OverconstrainedError - constraint video settings preventing
-        TypeError - audio: false, video: false
-        *********************************/
+        .catch(err => {
+            console.log(err.name, err.message);
+        })
+}
+navigator.mediaDevices.getUserMedia(constraintObj)
+    .then(function (mediaStreamObj) {
+        //connect the media stream to the first video element
+        let video = document.querySelector('video');
+        if ("srcObject" in video) {
+
+            screenshotButton.onclick = video.onclick = function () {
+
+                var myVar = setInterval(myTimer, 2000); //TIME 10seconds
+
+                function myTimer() {
+                    time_second = 2 + time_second;
+
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+                    // Other browsers will fall back to image/png
+                    img.src = canvas.toDataURL('image/png');
+                    let photo = canvas.toDataURL('image/webp');
+                    console.log(photo);
+
+                    // No query string parameters for this API call.
+
+                    makeblob = function (dataURL) {
+                        var BASE64_MARKER = ';base64,';
+                        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                            var parts = dataURL.split(',');
+                            var contentType = parts[0].split(':')[1];
+                            var raw = decodeURIComponent(parts[1]);
+                            return new Blob([raw], { type: contentType });
+                        }
+                        var parts = dataURL.split(BASE64_MARKER);
+                        var contentType = parts[0].split(':')[1];
+                        var raw = window.atob(parts[1]);
+                        var rawLength = raw.length;
+
+                        var uInt8Array = new Uint8Array(rawLength);
+
+                        for (var i = 0; i < rawLength; ++i) {
+                            uInt8Array[i] = raw.charCodeAt(i);
+                        }
+
+                        return new Blob([uInt8Array], { type: contentType });
+                    }
+                    var params = {};
+                    console.log(makeblob(photo))
+                    $.ajax({
+                        // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
+                        //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the
+                        //   URL below with "westcentralus".
+                        beforeSend: function (xhrObj) {
+                            // Request headers, also supports "application/octet-stream"
+                            xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+
+                            // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
+                            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", '<%= ENV['EMOTION_KEY'] %>');
+                        },
+                        type: "POST",
+                        url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+                        processData: false,
+                        data: makeblob(canvas.toDataURL('image/png')),
 
 
-        // FACIAL RECOGNITION API
-    
+                        // Request body
+                        // dataSrc: $("#screenshot-img"),
+
+                    }).done(function (data) {
+                        // Get face rectangle dimensions
+                        var faceRectangle = data[0].faceRectangle;
+                        var faceRectangleList = $('#faceRectangle');
+
+                        // Append to DOM
+                        for (var prop in faceRectangle) {
+                            faceRectangleList.append("<li> " + prop + ": " + faceRectangle[prop] + "</li>");
+                        }
+                        faceRectangleList.append("<hr>")
+                        // Get emotion confidence scores
+                        var scores = (data[0].scores);
+                        var scoresList = $('#scores');
+                        scoresList.append((time_second) + "SECONDS");
+                        // Append to DOM
+                        for (var prop in scores) {
+                            scoresList.append("<li> " + prop + ": " + (scores[prop] * 100).toFixed(2) + "</li>");
+                        }
+                        scoresList.append("<hr>");
+                    }).fail(function (err) {
+                        alert("Error: " + JSON.stringify(err));
+                    });
+                };
+                end.onclick = function () {
+                    clearInterval(myVar);
+                }
+                video.srcObject = mediaStreamObj;
+            }
+
+        }
+
+        else {
+            //old version
+            video.src = window.URL.createObjectURL(mediaStreamObj);
+        }
+
+        video.onloadedmetadata = function (ev) {
+            //show in the video element what is being captured by the webcam
+            video.play();
+
+
+        };
+
+        //add listeners for saving video/audio
+
+
+
+    })
+
     </script>
