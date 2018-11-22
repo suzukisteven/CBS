@@ -1,11 +1,25 @@
 Rails.application.routes.draw do
+
+  # Home / Root
+  root 'welcome#index'
+  get 'welcome/index'
+
+  # Individual pages Routes
+  get '/index' => "audio#index"
+  get "/show" => "dashboard#show", as: "dashboard"
+
+  # Braintree Payment Routes
   get 'braintree/new'
   get 'braintree/new_six'
   get 'braintree/new_one'
-  get 'welcome/index'
-  root 'welcome#index'
+  post 'braintree/checkout'
+  post 'braintree/checkout_six'
+  post 'braintree/checkout_one'
 
-  get '/index' => "audio#index"
+  # Clearance Routes
+  get "/sign_in" => "clearance/sessions#new", as: "sign_in"
+  delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
+  get "/sign_up" => "clearance/users#new", as: "sign_up"
   get '/show'=>"video#show"  ,as: "video_feature"
 
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
@@ -18,12 +32,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, controller:'users', only: [:show]
-  get "/sign_in" => "clearance/sessions#new", as: "sign_in"
-  delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
-  get "/sign_up" => "clearance/users#new", as: "sign_up"
+
+  # Google Oauth Callback Route
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"
-  post 'braintree/checkout'
-  post 'braintree/checkout_six'
-  post 'braintree/checkout_one'
 
 end

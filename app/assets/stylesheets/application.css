@@ -14,15 +14,49 @@
  *= require_self
  */
 
+/* Custom Fonts */
 h1 {
   font-family: 'Montserrat', sans-serif;
 }
 
-.customnav {
-  /* background-color: red' */
-  height: 75px;
+.hero {
+  font-size: 1.15em;
+  line-height: 28px;
 }
 
+.p-zero {
+  padding: 0 !important;
+}
+
+/* Landing Page Login form */
+#username-field {
+  -webkit-appearance: none;
+  -moz-appearance:none;
+}
+
+#username-field:focus {
+  border: orange;
+}
+
+/* Custom Colors */
+.bg-main {
+  background-color: #335C81;
+}
+
+.sidebarColor {
+  background-color: #354052;
+}
+
+.sidebarNavLinks {
+  color: #a0abbe;
+}
+
+.nav-item:hover {
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Navigation Bar */
 .nav-link {
   color: #0e0e0e !important;
   font-family: 'Montserrat', sans-serif !important;
@@ -32,13 +66,14 @@ h1 {
   color: #007bff !important;
 }
 
+/* Search Bar */
 #main-search {
   width: 285px !important;
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  transition: all .5s ease-out;
 }
 
 #main-search:focus {
-  width: 500px !important;
+  width: 700px !important;
 }
