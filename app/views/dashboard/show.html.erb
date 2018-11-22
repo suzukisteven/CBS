@@ -4,7 +4,7 @@
 
     <!-- Sidebar Element  -->
     <!-- Ajax this for graph swapping, changing media results -->
-    <nav class="col-md-2 d-none d-md-block sidebarColor sidebar shadow" style="height: 95vh;">
+    <nav id="dashboard-sidebar" class="col-md-2 sidebarColor sidebar shadow" style="height: 95vh;">
       <div class="sidebar-sticky">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
         <ul class="nav flex-column">
@@ -22,10 +22,11 @@
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>2 Long ago 4 me </li>
         </ul>
       </div>
+      <input type="button" value="Hide SideNav" onclick="hideNav();">
     </nav>
 
     <!-- Chart Section -->
-    <div class="col-md-10 m-0 p-0 w-100">
+    <div id="dashboard-main" class="col-md-10 m-0 p-0 w-100">
       <div class="container mt-4 mb-4">
         <div class="row">
           <div class="col-md-6 container">
@@ -39,7 +40,7 @@
         </div>
       </div>
       <canvas id="myChart" class=""></canvas>
-      <input class="btn btn-success" type="button" name="" value="Add Dummy Data" onclick = "addData()">
+      <input class="btn btn-success ml-3" type="button" name="" value="Add Dummy Data" onclick = "addData()">
     </div>
 
     <script type="text/javascript">
@@ -60,7 +61,7 @@
       datasets: [{
         label: "Happiness",
         lineTension: 0.1,
-        borderColor: 'Orange',
+        borderColor: 'yellow',
         backgroundColor: 'rgba(1,1,1,0)',
         data: [65, 99, 32, 33, 45, 40, 50, 50, 50, 73, 10, 50],
       }, {
@@ -75,6 +76,36 @@
         borderColor: 'red',
         backgroundColor: 'rgba(1,1,1,0)',
         data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+      }, {
+        label: "Contempt",
+        lineTension: 0.1,
+        borderColor: 'green',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+      }, {
+        label: "Disgust",
+        lineTension: 0.1,
+        borderColor: 'purple',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+      }, {
+        label: "Fear",
+        lineTension: 0.1,
+        borderColor: 'pink',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+      }, {
+        label: "Neutral",
+        lineTension: 0.1,
+        borderColor: 'grey',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+      }, {
+        label: "Surprise",
+        lineTension: 0.1,
+        borderColor: 'orange',
+        backgroundColor: 'rgba(1,1,1,0)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
       }
     ]
   };
@@ -86,10 +117,31 @@
 
   // test for button onclick to add new data point
   function addData(){
+    // setTimeout(function(){
+    //
+    // }, 1000)
     myChart.data.datasets[0].data.push(50);
+    myChart.data.datasets[1].data.push(60);
+    myChart.data.datasets[2].data.push(40);
+    myChart.data.datasets[3].data.push(40);
+    myChart.data.datasets[4].data.push(40);
+    myChart.data.datasets[5].data.push(40);
+    myChart.data.datasets[6].data.push(40);
+    myChart.data.datasets[7].data.push(40);
     myChart.data.labels.push("Newly added");
-    console.log(data.length)
+
+    // myChart.data.datasets[0].data[myChart.data.datasets[1].data.length] = 60;
+    // myChart.data.datasets[1].data[myChart.data.datasets[1].data.length] = 50;
+    // myChart.data.datasets[2].data[myChart.data.datasets[1].data.length] = 40;
+    // myChart.data.labels[myChart.data.labels.length] = "Newly added";
+    console.log(data);
+    // console.log(data.length);
     myChart.update();
+  }
+
+  function hideNav(){
+    document.getElementById('dashboard-sidebar').classList.add('d-md-none');
+    document.getElementById('dashboard-main').style.marginLeft = "0px";
   }
 
   </script>

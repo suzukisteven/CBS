@@ -43,18 +43,6 @@ h1 {
   background-color: #335C81;
 }
 
-.sidebarColor {
-  background-color: #354052;
-}
-
-.sidebarNavLinks {
-  color: #a0abbe;
-}
-
-.nav-item:hover {
-  color: #fff;
-  cursor: pointer;
-}
 
 /* Navigation Bar */
 .nav-link {
@@ -76,4 +64,22 @@ h1 {
 
 #main-search:focus {
   width: 700px !important;
+}
+
+/* Sidebar Nav */
+.nav-item:hover {
+  color: #fff;
+  cursor: pointer;
+}
+
+.sidebarColor {
+  background-color: #354052;
+}
+
+.sidebarNavLinks {
+  color: #a0abbe;
+}
+
+#dashboard-sidebar {
+  width: 200px!important;
 }

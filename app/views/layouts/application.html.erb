@@ -11,8 +11,11 @@
 
   <%= javascript_include_tag 'https://js.braintreegateway.com/web/3.6.3/js/client.min.js' %>
   <%= javascript_include_tag 'https://js.braintreegateway.com/web/3.6.3/js/hosted-fields.min.js' %>
-  <%= javascript_include_tag 'http://code.jquery.com/jquery-2.1.4.min.js' %>
-  <%#= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.js' %>
+  <% if params[:controller] == "audio" %>
+    <%= javascript_include_tag 'http://code.jquery.com/jquery-2.1.4.min.js' %>
+  <% else %>
+    <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.js' %>
+  <% end %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js' %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js' %>
   <%= javascript_include_tag 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js', 'data-turbolinks-track': 'reload' %>
@@ -39,7 +42,9 @@
 
       <div>
         <ul class="navbar-nav mr-auto">
-         
+          <!-- <li class="nav-item"> -->
+            <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+          <!-- </li> -->
           <li class="nav-item">
             <%= link_to "Audio Analysis", index_path, class: "nav-link mr-3" %>
           </li>
