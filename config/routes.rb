@@ -18,6 +18,10 @@ Rails.application.routes.draw do
 
   resources :users, controller:'users'
   resources :companies, controller:'company'
+  resources :notifications
+  resources :companies do 
+    resource :request, controller: 'request'
+  end
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
