@@ -1,0 +1,89 @@
+<!-- Dashboard Page  -->
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar Element  -->
+    <!-- Ajax this for graph swapping, changing media results -->
+    <nav class="col-md-2 d-none d-md-block sidebarColor sidebar shadow" style="height: 95vh;">
+      <div class="sidebar-sticky">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
+        <ul class="nav flex-column">
+          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-video mr-3 text-warning"></i>Video Analysis</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-audio mr-3 text-danger"></i>Audio Analysis</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-font mr-3 text-success"></i>Text Analysis</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-user-tie mr-3 text-primary"></i>Some other stuff</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-superscript mr-3 text-info"></i>Wow Another Link</li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Saved Reports</h6>
+        <ul class="nav flex-column">
+          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>This Week</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Current Month</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Last Quarter</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>2 Long ago 4 me </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Chart Section -->
+    <div class="col-md-10 m-0 p-0 w-100">
+      <div class="container mt-4 mb-4">
+        <div class="row">
+          <div class="col-md-6 container">
+            <h3>Customer Service Rep.</h3>
+            <h4><i class="fas fa-map-marker-alt mr-3"></i>William Smith, <em>NEXT Academy</em></h4>
+          </div>
+          <div class="col-md-6 container">
+            <button class="btn btn-outline-danger btn-sm mt-3" type="button" name="button" style="float: right;">SPANK</button>
+            <button class="btn btn-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">Track</button>
+          </div>
+        </div>
+      </div>
+      <canvas id="myChart" class=""></canvas>
+    </div>
+
+    <script type="text/javascript">
+    // Add turbolinks so it initializes when page loads.
+    // Add jsPDF
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+    // Global Options ------------------------------------------
+    // bar, pie, line, horizontalBar, doughnut, radar, polarArea
+    // Chart.defaults.global.defaultFontFamily = 'Lato';
+    // Chart.defaults.global.defaultFontSize = '14';
+    // Charts.defaults.global.defaultFontColor = '#000';
+
+    let fakeData = new Chart(myChart, {
+      type: 'line',
+      data: {
+        labels: ['Steven', 'Bella', 'Calvin', 'Er-Whey', 'Matt', 'Emika', 'Dustin'],
+        datasets: [{
+          label: 'Score',
+          data: [
+            2,
+            54822,
+            54822,
+            99999,
+            88888,
+            99999,
+            83020
+          ],
+          borderColor:'cornflowerblue',
+          backgroundColor: 'rgba(1,1,1,0)',
+          lineTension:0
+        }]
+      },
+      options: {
+        title:{
+          display:false,
+          text:'Coding Enlightenment',
+          fontSize:25
+        },
+        legend:{
+          position:'right'
+        }
+      }
+    });
+
+  </script>
+  </div>
+</div>
