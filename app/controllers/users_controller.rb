@@ -3,11 +3,11 @@ class UsersController < Clearance::UsersController
         @user = User.find(params[:id])
         # byebug
     end
-    # def update
-    #     @user = User.find(params[:id])
-    #     @user.update(user_params)
-    #     redirect_to @user
-    # end
+    def update
+        @user = User.find(params[:id])
+        @user.update(user_params)
+        redirect_to @user
+    end
     # def edit
     #     @user = User.find(params[:id])
     # end
@@ -33,6 +33,6 @@ class UsersController < Clearance::UsersController
     end
     
     def user_params
-        params.require(:user).permit(:email, :password, :firstname, :lastname, :position)
+        params.require(:user).permit(:email, :password, :firstname, :lastname, :position, :image)
     end
 end
