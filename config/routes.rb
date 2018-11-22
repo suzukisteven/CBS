@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/index' => "audio#index"
+  get '/show'=>"video#show"  ,as: "video_feature"
 
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "clearance/sessions", only: [:create]
@@ -17,7 +18,6 @@ Rails.application.routes.draw do
   end
 
   resources :users, controller:'users', only: [:show]
-
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "clearance/users#new", as: "sign_up"
