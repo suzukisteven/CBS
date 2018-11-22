@@ -1,5 +1,4 @@
 
-    <link rel="stylesheet" href="style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
   
@@ -84,10 +83,10 @@ navigator.mediaDevices.getUserMedia(constraintObj)
 
             screenshotButton.onclick = video.onclick = function () {
 
-                var myVar = setInterval(myTimer, 2000); //TIME 10seconds
+                var myVar = setInterval(myTimer, 3000); //TIME 10seconds
 
                 function myTimer() {
-                    time_second = 2 + time_second;
+                    time_second = 3 + time_second;
 
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
@@ -95,7 +94,6 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                     // Other browsers will fall back to image/png
                     img.src = canvas.toDataURL('image/png');
                     let photo = canvas.toDataURL('image/webp');
-                    console.log(photo);
 
                     // No query string parameters for this API call.
 
@@ -121,7 +119,6 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                         return new Blob([uInt8Array], { type: contentType });
                     }
                     var params = {};
-                    console.log(makeblob(photo))
                     $.ajax({
                         // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
                         //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the
@@ -155,6 +152,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                         // Get emotion confidence scores
                         var scores = (data[0].scores);
                         var scoresList = $('#scores');
+                         console.log(scores.anger*100);
                         scoresList.append((time_second) + "SECONDS");
                         // Append to DOM
                         for (var prop in scores) {
