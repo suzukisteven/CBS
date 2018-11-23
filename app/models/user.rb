@@ -39,4 +39,8 @@ class User < ApplicationRecord
       result.customer
     end
   end
+
+  def get_existing_braintree_customer
+    Braintree::Customer.find(self.braintree_customer_id)
+  end
 end

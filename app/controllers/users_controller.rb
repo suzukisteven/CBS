@@ -12,6 +12,9 @@ class UsersController < Clearance::UsersController
     # end
 
 
+    def subscribe_to_plan
+    end
+    
     private 
 
     # Override user_from_params from default clearance controller
