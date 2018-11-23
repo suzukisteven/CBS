@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "clearance/users#new", as: "sign_up"
   get '/show'=>"video#show"  ,as: "video_feature"
-
+  # Text Analysis
+  get '/texts'=>'text#show', as: "text_analyze"
+  post '/texts'=>'text#create'
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "clearance/sessions", only: [:create]
 
