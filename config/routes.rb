@@ -31,9 +31,27 @@ Rails.application.routes.draw do
       only: [:create, :edit, :update]
   end
 
-  resources :users, controller:'users', only: [:show]
+  resources :users, controller:'users'
+  resources :companies, controller:'company'
+  
+  resources :notifications do
+    collection do
+      post :mark_as_read
+    end
+  end
+
+  resources :companies do 
+    resource :request, controller: 'request'
+  end
 
   # Google Oauth Callback Route
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"
+  post 'braintree/checkout'
+  post 'braintree/checkout_six'
+  post 'braintree/checkout_one'
+  get 'companies/:company_id/users/:id/confirm' => 'users#confirm', as:'confirm_user' 
+  get 'companies/:id/employees_index' => 'company#employees_index', as:'employees_index'
+
+  patch 'users/:id/remove_employee' => 'company#remove_employee', as:'remove_employee'
 
 end

@@ -1,4 +1,32 @@
-<h1>User Show</h1>
+<h1><%= @user.firstname %></h1>
+<div class="card" style="width: 20rem;">
+            <img class="card-img-top" src=<%= @user.image_url(:thumb).to_s %> alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><%= @user.firstname.upcase %> | <%=@user.age %></h5>
+                <h6> Email <%=@user.email %> </h6>
+                <% if @user.id == current_user.id %>
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Update 
+                    </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                            <%= form_for @user, :html => {:multipart => true}, local: true do |form| %>
+                                <p>
+                                    <%= form.label :"Update name" %><br>
+                                    <%= form.text_field :firstname %>
+                                </p>
+                                <p>
+                                    <%= form.file_field :image %>
+                                    <%= form.button :submit => "", class: "btn btn-primary btn-xs" %>
+                                </p>
+                            <% end %>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+        </div>
 <%= link_to "12 month plan", braintree_new_path %><br>
 <%= link_to "6 month plan", braintree_new_six_path %><br>
 <%= link_to "1 month plan", braintree_new_one_path %><br>

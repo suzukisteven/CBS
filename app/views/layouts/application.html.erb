@@ -42,12 +42,34 @@
 
       <div>
         <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item"> -->
-            <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
-          <!-- </li> -->
+        <% if signed_in? && current_user.position == 'manager'  && current_user.company_id == nil%>
+          <li class="nav-item">
+            <%= link_to "Add Company", new_company_path, class: "nav-link mr-3" %>
+          </li>
+        <% end %>
+          <% if signed_in? %>
           <li class="nav-item">
             <%= link_to "Audio Analysis", index_path, class: "nav-link mr-3" %>
           </li>
+          <li class="nav-item btn-group" data-behavior='notifications'>
+              <a class="dropdown-toggle nav-link" type="button" data-behavior='notifications-link' id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Notifs
+              </a>
+              <span data-behavior='unread-count'></span>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-behavior="notification-items">
+              <!--
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+              -->
+          </li>
+          <% if current_user.company_id != nil %>
+            <li class="nav-item">
+              <%= link_to "Company Home", company_path(current_user.company_id), class: "nav-link mr-3" %>
+            </li>
+          <% end %>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Video", video_path, class: "nav-link  mr-3" %>
           </li>
