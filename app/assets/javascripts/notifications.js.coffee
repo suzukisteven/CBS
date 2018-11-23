@@ -29,7 +29,7 @@ class Notifications
         items= $.map data, (notification) ->
             url = "/companies/#{notification.recipient.company_id}/users/#{notification.actor.id}/confirm"
             "<div class='dropdown-item'>
-                #{notification.actor} #{notification.action} #{notification.notifiable.type}
+                #{notification.actor.firstname} #{notification.action} #{notification.notifiable.type}
             </div>
             <a href='#{url}'> accept </a>"
         $("[data-behavior='unread-count']").text(items.length)

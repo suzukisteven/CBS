@@ -37,5 +37,8 @@ Rails.application.routes.draw do
   post 'braintree/checkout_six'
   post 'braintree/checkout_one'
   get 'companies/:company_id/users/:id/confirm' => 'users#confirm', as:'confirm_user' 
+  get 'companies/:id/employees_index' => 'company#employees_index', as:'employees_index'
+
+  patch 'users/:id/remove_employee' => 'company#remove_employee', as:'remove_employee'
 
 end
