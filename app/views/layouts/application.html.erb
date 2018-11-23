@@ -37,9 +37,9 @@
 
       <div>
         <ul class="navbar-nav mr-auto">
-        <% if signed_in? && current_user.position == 'manager' %>
+        <% if signed_in? && current_user.position == 'manager'  && current_user.company_id == nil%>
           <li class="nav-item">
-            <%= link_to "Add a Company", new_company_path, class: "nav-link mr-3" %>
+            <%= link_to "Add Company", new_company_path, class: "nav-link mr-3" %>
           </li>
         <% end %>
           <% if signed_in? %>
@@ -59,6 +59,11 @@
               </div>
               -->
           </li>
+          <% if current_user.company_id != nil %>
+            <li class="nav-item">
+              <%= link_to "Company Home", company_path(current_user.company_id), class: "nav-link mr-3" %>
+            </li>
+          <% end %>
           <% end %>
           <li class="nav-item">
             <%= link_to "Audio Analysis", index_path, class: "nav-link mr-3" %>

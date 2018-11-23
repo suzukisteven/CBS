@@ -23,6 +23,7 @@ class CompanyController < ApplicationController
         @users = User.all
         @company = Company.new(company_params)
         @company.save
+        @company.update(manager_id:current_user.id)
         current_user.update(company_id:@company.id)
 
         selected_ids = params[:company][:user]
@@ -37,7 +38,7 @@ class CompanyController < ApplicationController
     def show
         @company = Company.find(params[:id])
         @employees = @company.users
-        @manager = @employees.find_by(position:0)
+        @manager = User.find(@company.manager_id)
     end
 
     def update
@@ -47,6 +48,6 @@ class CompanyController < ApplicationController
     private
     def company_params
         # Return value is a hash
-        params.require(:company).permit(:name, :description, :image)
+        params.require(:company).permit(:name, :description, :image, :manager)
     end
 end

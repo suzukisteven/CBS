@@ -1,8 +1,8 @@
 <img src=<%= @company.image_url(:thumb).to_s %>>
 
-<h1><%=@company.name%></h1>
+<h1><%=@company.name.upcase%></h1>
 
-<h3>Manager:<%=@manager.firstname%></h3>
+<h3>Manager: <%=@manager.firstname%>  <%=@manager.lastname%></h3>
 
 <%= link_to 'Employees', employees_index_path(@company.id) %></h3>
 

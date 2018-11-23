@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include Clearance::User
   has_many :authentications, dependent: :destroy
-  has_many :notifications, foreign_key: :recipient_id
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   
   mount_uploader :image, ImageUploader
   belongs_to :company, optional: true
