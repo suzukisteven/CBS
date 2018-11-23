@@ -6,7 +6,7 @@ class RequestController < ApplicationController
         @request.save
 
         # Creating notification
-        notification = Notification.new(recipient_id: @company.users.find_by(position:0).id, actor_id:current_user.id, action:'requested', notifiable: @company)
+        notification = Notification.new(recipient_id: @company.users.find_by(position:0).id, actor_id:current_user.id, action:'requested to join your', notifiable: @company)
         
         notification.save
         redirect_to root_url
