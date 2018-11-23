@@ -11,8 +11,10 @@
 <% end %>
 <ul>
 
-<%= form_with scope: :company, url: company_request_path(@company.id), local: true do |form| %>
-  <p>
-    <%= form.submit "Request Join", class: "btn btn-primary btn-xs" %>
-  </p>
+<% if current_user.position == 0 %>
+  <%= form_with scope: :company, url: company_request_path(@company.id), local: true do |form| %>
+    <p>
+      <%= form.submit "Request Join", class: "btn btn-primary btn-xs" %>
+    </p>
+  <% end %>
 <% end %>
