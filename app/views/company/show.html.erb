@@ -4,9 +4,14 @@
 
 <h3>Manager:<%=@manager.firstname%></h3>
 
-<h3>Employees:</h3>
-<ul>
-<% @employees.each do |e| %>
-   <li> <%= link_to e.firstname %></li><br>
+<%= link_to 'Employees', employees_index_path(@company.id) %></h3>
+
+<% if current_user.position != 0 && current_user.company_id == nil %>
+  <%= form_with scope: :company, url: company_request_path(@company.id), local: true do |form| %>
+    <p>
+      <%= form.submit "Request Join", class: "btn btn-primary btn-xs" %>
+    </p>
+  <% end %>
 <% end %>
-<ul>
+
+

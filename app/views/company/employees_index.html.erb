@@ -1,0 +1,12 @@
+<h1>Employees</h1>
+
+<ul>
+<% @employees.each do |e| %>
+    <% next if e.position == 'manager' %>
+        <li> <%= link_to e.firstname, user_path(e.id) %></li>
+    <%= link_to 'Remove Employee', remove_employee_path(e.id),
+                method: :patch,
+                data: { confirm: 'Remove employee?' } %><br/>
+<% end %>
+<ul>
+

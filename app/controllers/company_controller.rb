@@ -6,6 +6,18 @@ class CompanyController < ApplicationController
             array << option
         end
     end
+
+    def employees_index
+        @company = Company.find(params[:id])
+        @employees= @company.users
+    end
+
+    def remove_employee
+        @user = User.find(params[:id])
+        @company_id = @user.company.id
+        @user.update(company_id: nil)
+        redirect_to employees_index_path(@company_id)
+    end
     
     def create
         @users = User.all
