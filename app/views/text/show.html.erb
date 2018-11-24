@@ -1,0 +1,33 @@
+    <%= form_with(model: @text, local: true) do |form| %>
+    <%= form.text_area :data ,placeholder:'Place your email/text in the Text Area. Please place at least a sentence.' %>
+    <%= form.submit %>
+    <% end %>
+    
+    <% @texts.each_with_index do |text,index| %>
+     <%=index+1%>.<%=text.data%></p><hr>
+    <% end %>
+
+    <strong> TEXT RESULT:<br></strong>
+    
+    <%if @texts.last==nil%>
+    <%else%>
+        <% @document_tone.each do |obj| %>
+            <% obj.each do |key, value| %>
+                <% if key == "text"  %>
+                    Sentence: <%= value %><br>    
+                <% elsif key == "tones"%>
+                    <% if value.empty?%>
+                    Emotion: <%= "Neutral" %><hr>
+                    <% end %>
+                    <% next if value.empty? %>
+                        <% value[0].each do |key, value| %>
+                    <% if key == "score" %>
+                     Emotion:<%= value %>
+                    <% elsif key == "tone_name" %>
+                        <%= value %><hr>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <% end %>
+        <% end %> 
+    <% end %> 
