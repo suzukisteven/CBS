@@ -4,7 +4,7 @@ class TextController < ApplicationController
         @texts = Text.all
         tone_analyzer = ToneAnalyzerV3.new(
           version: "2017-09-21",
-          iam_apikey: "UWJozDl7pHknFO2gwy96WEnVmdO0TRCXyM68t0w5N6Vj",
+          iam_apikey: ENV['TEXT_KEY'] ,
           url: "https://gateway.watsonplatform.net/tone-analyzer/api"
         ) 
         if(Text.last)
