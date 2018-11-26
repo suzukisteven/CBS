@@ -1,12 +1,11 @@
-    <%= form_with(model: @text, local: true) do |form| %>
-    <%= form.text_area :data ,placeholder:'Place your email/text in the Text Area. Please place at least a sentence.' %>
+    <%= form_with(model: @text, local: true, url: text_upload_path(current_user)) do |form| %>
+    <%= form.text_area :text ,placeholder:'Place your email/text in the Text Area. Please place at least a sentence.' %>
     <%= form.submit %>
     <% end %>
-    
+  
     <% @texts.each_with_index do |text,index| %>
-     <%=index+1%>.<%=text.data%></p><hr>
+     <%=index+1%>.<%=text.text%></p><hr>
     <% end %>
-
     <strong> TEXT RESULT:<br></strong>
     
     <%if @texts.last==nil%>
