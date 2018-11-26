@@ -7,11 +7,10 @@ Rails.application.routes.draw do
   # Individual pages Routes
   get '/index' => "audio#index"
   get "/show" => "dashboard#show", as: "dashboard"
-  get 'users/:id/video' => "video#show", as: "user_video"
-    # Text Analysis
-  get 'users/:id/texts'=>'text#show', as: "text_analyze"
-  post 'users/:id/texts'=>'text#create', as:"text_upload"
+  get '/users/:id/video' => "video#show", as: 'user_video'
 
+  get 'users/:id/texts'=>'text#show', as: "text_analyze"
+ post 'users/:id/texts'=>'text#create', as:"text_upload"
   # Braintree Payment Routes
   get 'braintree/new'
   get 'braintree/new_six'
@@ -26,6 +25,7 @@ Rails.application.routes.draw do
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "clearance/users#new", as: "sign_up"
   get '/show'=>"video#show"  ,as: "video_feature"
+
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "clearance/sessions", only: [:create]
 
@@ -37,6 +37,16 @@ Rails.application.routes.draw do
 
   resources :users, controller:'users'
   resources :companies, controller:'company'
+  
+  resources :notifications do
+    collection do
+      post :mark_as_read
+    end
+  end
+
+  resources :companies do 
+    resource :request, controller: 'request'
+  end
 
   # Google Oauth Callback Route
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"

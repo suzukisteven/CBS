@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_074857) do
+ActiveRecord::Schema.define(version: 2018_11_26_143100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 2018_11_23_074857) do
     t.datetime "updated_at", null: false
     t.string "image"
     t.integer "manager_id"
+  end
+
+  create_table "databases", force: :cascade do |t|
+    t.string "text"
+    t.json "text_result"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_databases_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -72,7 +81,17 @@ ActiveRecord::Schema.define(version: 2018_11_23_074857) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  create_table "videos", force: :cascade do |t|
+    t.string "video_result"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_videos_on_user_id"
+  end
+
   add_foreign_key "authentications", "users"
+  add_foreign_key "databases", "users"
   add_foreign_key "requests", "users"
   add_foreign_key "users", "companies"
+  add_foreign_key "videos", "users"
 end
