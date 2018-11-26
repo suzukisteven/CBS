@@ -9,11 +9,13 @@ class TextController < ApplicationController
           url: "https://gateway.watsonplatform.net/tone-analyzer/api"
         ) 
         if(Database.last)
+            
             text=Database.last.text
             tone = tone_analyzer.tone(
             tone_input: {text: text},
             content_type: "application/json"
             )
+            Database.last.update(text_result:tone.result)
             @sentence_tone_score= tone.result
             @document_tone = []
             tone.result.each do |key, value| 
