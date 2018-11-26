@@ -19,7 +19,7 @@
                     Emotion: <%= "Neutral" %><hr>
                     <% end %>
                     <% next if value.empty? %>
-                        <% value[0].each do |key, value| %>
+                    <% value[0].each do |key, value| %>
                     <% if key == "score" %>
                      Emotion:<%= value %>
                     <% elsif key == "tone_name" %>
