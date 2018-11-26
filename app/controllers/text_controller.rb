@@ -8,21 +8,22 @@ class TextController < ApplicationController
           iam_apikey: ENV['TEXT_KEY'] ,
           url: "https://gateway.watsonplatform.net/tone-analyzer/api"
         ) 
-        if(Database.last)
-            
+        if(Database.last.text_result)   
+        
+            Database.last.text_result.each do |key, value| 
+                if key == "sentences_tone"
+                    @document_tone = value
+                end 
+            end 
+        else 
             text=Database.last.text
             tone = tone_analyzer.tone(
             tone_input: {text: text},
             content_type: "application/json"
             )
-            Database.last.update(text_result:tone.result)
-            @sentence_tone_score= tone.result
+            @sentence_tone_score= Database.last.text_result
             @document_tone = []
-            tone.result.each do |key, value| 
-                if key == "sentences_tone"
-                    @document_tone = value
-                end 
-            end 
+            Database.last.update(text_result:tone.result)
          end
     end
 
