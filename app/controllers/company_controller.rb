@@ -62,4 +62,7 @@ class CompanyController < ApplicationController
         # Return value is a hash
         params.require(:company).permit(:name, :description, :image, :manager)
     end
+
+    def only_manager_remove_employees
+    end
 end
