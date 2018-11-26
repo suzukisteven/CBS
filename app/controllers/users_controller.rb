@@ -11,7 +11,12 @@ class UsersController < Clearance::UsersController
     #     @user = User.find(params[:id])
     # end
 
-
+    def confirm
+        @user = User.find(params[:id])
+        @user.update(company_id:params[:company_id])
+        redirect_back(fallback_location: root_path)
+    end
+    
     def subscribe_to_plan
     end
     
