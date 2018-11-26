@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   include Clearance::User
   has_many :authentications, dependent: :destroy
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
+  
+  mount_uploader :image, ImageUploader
+  belongs_to :company, optional: true
   has_many :databases, dependent:  :destroy
   has_many :videos, dependent:  :destroy
   enum position: { manager: 0, employee: 1}
@@ -34,5 +38,9 @@ class User < ApplicationRecord
       self.update(braintree_customer_id: result.customer.id)
       result.customer
     end
+  end
+
+  def get_existing_braintree_customer
+    Braintree::Customer.find(self.braintree_customer_id)
   end
 end

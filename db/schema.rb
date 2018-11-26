@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
+    t.integer "manager_id"
+  end
+
   create_table "databases", force: :cascade do |t|
     t.string "text"
     t.json "text_result"
@@ -32,6 +41,24 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_databases_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "recipient_id"
+    t.integer "actor_id"
+    t.datetime "read_at"
+    t.string "action"
+    t.integer "notifiable_id"
+    t.string "notifiable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,8 +72,11 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
     t.string "lastname"
     t.integer "age"
     t.string "company"
-    t.string "position"
     t.string "braintree_customer_id"
+    t.bigint "company_id"
+    t.integer "position"
+    t.string "image"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
@@ -61,5 +91,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
 
   add_foreign_key "authentications", "users"
   add_foreign_key "databases", "users"
+  add_foreign_key "requests", "users"
+  add_foreign_key "users", "companies"
   add_foreign_key "videos", "users"
 end

@@ -1,0 +1,61 @@
+<img src=<%= @company.image_url(:thumb).to_s %>>
+
+<h1><%=@company.name.upcase%></h1>
+
+<h3>Manager: <%=@manager.firstname%>  <%=@manager.lastname%></h3>
+
+<%= form_with url: search_company_employees_path(@company.id), local: true, class:'form-inline my-2 my-lg-0' , :method => 'post', id: "employee-search"  do |form| %>
+    <%= form.text_field :search, class: "form-control mr-sm-2", list: 'list' %>
+    <%= form.submit "search", class:"btn btn-outline-success my-2 my-sm-0" %>
+    <datalist id="list"></datalist>
+<% end %>
+
+<%= link_to 'Employees', employees_index_path(@company.id) %></h3>
+
+<% if current_user.position != 0 && current_user.company_id == nil %>
+  <%= form_with scope: :company, url: company_request_path(@company.id), local: true do |form| %>
+    <p>
+      <%= form.submit "Request Join", class: "btn btn-primary btn-xs" %>
+    </p>
+  <% end %>
+<% end %>
+
+<script>
+$(document).on('turbolinks:load', function(){
+
+$("#search").on("change", function(){
+  autocomplete()
+});
+
+function autocomplete(){
+  $.ajax({
+    url: '/companies/<%= @company.id %>/search_employees',
+    type: 'POST',
+    data: $("#employee-search").serialize(), 
+    dataType: 'json', 
+    error: function() {
+        console.log("Something went wrong");
+    },
+    success: function(data) {
+      document.getElementById('list').innerHTML = '';
+      console.log('helo')
+      $("#list").empty();
+
+      var uniquedata = [];
+      $.each(data, function(i, el){
+          if($.inArray(el, uniquedata) === -1) uniquedata.push(el);
+      });
+
+      uniquedata.forEach(function(element) {
+        var option = document.createElement("option");
+        option.value = element;
+        //append option to list
+        $("#list").append(option);
+      });
+    }
+  });
+}
+})
+</script>
+
+
