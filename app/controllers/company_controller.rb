@@ -7,6 +7,18 @@ class CompanyController < ApplicationController
         end
     end
 
+    def search
+        # byebug
+        @company= Company.find(params[:id])
+        @search_employees = @company.search_employees(params["search"])
+        @user= User.find_by(firstname: params['search'])
+
+        respond_to do |format|
+            format.html { redirect_to user_path(@user.id) }
+            format.json { render json: @search_employees.map{|e| e.firstname}}
+        end
+    end
+
     def employees_index
         @company = Company.find(params[:id])
         @employees= @company.users

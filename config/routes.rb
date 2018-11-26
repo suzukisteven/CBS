@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   post 'braintree/checkout'
   post 'braintree/checkout_six'
   post 'braintree/checkout_one'
-  
   post 'braintree/checkout_one_existing'
 
   # Clearance Routes
@@ -48,5 +47,7 @@ Rails.application.routes.draw do
   get 'companies/:id/employees_index' => 'company#employees_index', as:'employees_index'
   patch 'users/:id/remove_employee' => 'company#remove_employee', as:'remove_employee'
   get '/subscribe_to_plan' => 'braintree#subscribe_to_plan', as:'subscribe_to_plan'
+
+  post '/companies/:id/search_employees' => 'company#search', as: 'search_company_employees'
 
 end
