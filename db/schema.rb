@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
 
   create_table "databases", force: :cascade do |t|
     t.string "text"
-    t.string "text_result"
+    t.json "text_result"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

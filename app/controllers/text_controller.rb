@@ -8,14 +8,12 @@ class TextController < ApplicationController
           iam_apikey: ENV['TEXT_KEY'] ,
           url: "https://gateway.watsonplatform.net/tone-analyzer/api"
         ) 
-        if(Database.last.text_result==nil)
+        if(Database.last)
             text=Database.last.text
             tone = tone_analyzer.tone(
             tone_input: {text: text},
             content_type: "application/json"
             )
-            byebug
-            Database.last.text_result.update(tone.result)
             @sentence_tone_score= tone.result
             @document_tone = []
             tone.result.each do |key, value| 
@@ -24,7 +22,6 @@ class TextController < ApplicationController
                 end 
             end 
          end
-         
     end
 
     def create
