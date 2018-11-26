@@ -70,6 +70,11 @@
           <li class="nav-item">
             <%= link_to "Text", text_analyze_path(current_user.id), class: "nav-link mr-3" %>
           </li>
+          <% if current_user.company_id != nil %>
+            <li class="nav-item">
+              <%= link_to "Company Home", company_path(current_user.company_id), class: "nav-link mr-3" %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
           </li>
