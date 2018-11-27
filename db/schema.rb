@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_26_143100) do
+ActiveRecord::Schema.define(version: 2018_11_26_181900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,15 @@ ActiveRecord::Schema.define(version: 2018_11_26_143100) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "result_happy", default: [], array: true
+    t.string "result_sad", default: [], array: true
+    t.string "result_anger", default: [], array: true
+    t.string "result_contempt", default: [], array: true
+    t.string "result_disgust", default: [], array: true
+    t.string "result_fear", default: [], array: true
+    t.string "result_neutral", default: [], array: true
+    t.string "result_surprise", default: [], array: true
+    t.string "time", default: [], array: true
     t.index ["user_id"], name: "index_videos_on_user_id"
   end
 
