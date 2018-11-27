@@ -19,7 +19,13 @@ h1 {
   font-family: 'Montserrat', sans-serif;
 }
 
+h3 {
+  font-family: 'Montserrat'. sans-serif;
+  font-weight: 200;
+}
+
 .hero {
+  font-weight: 200;
   font-size: 1.15em;
   line-height: 28px;
 }
@@ -45,6 +51,11 @@ h1 {
 
 
 /* Navigation Bar */
+.navbar-links a {
+  font-weight: 300;
+  font-size: 15px;
+}
+
 .nav-link {
   color: #0e0e0e !important;
   font-family: 'Montserrat', sans-serif !important;
@@ -63,7 +74,7 @@ h1 {
 }
 
 #main-search:focus {
-  width: 700px !important;
+  width: 575px !important;
 }
 
 /* Sidebar Nav */
@@ -72,7 +83,7 @@ h1 {
   cursor: pointer;
 }
 
-.sidebarColor {
+.sidebar-color {
   background-color: #354052;
 }
 
@@ -80,6 +91,97 @@ h1 {
   color: #a0abbe;
 }
 
-#dashboard-sidebar {
-  width: 200px!important;
+.hide-sidebar {
+  width: 0!important;
+  -webkit-transition: -webkit-transform 1s;
+  -webkit-transform: translateX(204px);
+}
+
+@keyframes slideOut {
+  0% { transform: translate(0); }
+  100% { transform: translate(-240px); }
+}
+
+@keyframes slideIn {
+  0% { transform: translate(-240px); }
+  100% { transform: translate(0px); }
+}
+
+.stayLeft {
+  transform: translate(-240px);
+}
+
+.slideLeft {
+  animation: slideOut 1s forwards; /* IE 10+, Fx 29+ */
+}
+
+.slideLeft {
+  animation: slideOut 1s forwards; /* IE 10+, Fx 29+ */
+}
+
+.slideRight {
+  animation: slideIn 1s forwards;
+}
+
+/* Main Dashboard */
+
+.d-main-bg {
+  background-color: #f3f5f4;
+}
+
+.container-white {
+  background-color: #fff;
+}
+
+#hide-sidebar-btn {
+  position: fixed;
+  margin-left: 205px;
+}
+
+canvas {
+  /* 546 */
+  width: 900px!important;
+  height: 450px!important;
+}
+
+.letstrythis {
+  width: 47.5%!important;
+}
+
+.chartContainer60w {
+  width: 60%!important;
+}
+
+.text-dgrey {
+  color: #354052;
+}
+
+/* Modal Sign-in */
+.modal {
+  text-align: center;
+  background-color: rgba(36, 58, 72, 0.75);
+}
+
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+    margin-left: -350px;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.login-bg {
+  background-color: #de6461;
+}
+
+.login-text {
+  font-weight: 400!important;
 }
