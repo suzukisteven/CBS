@@ -1,6 +1,7 @@
 class CompanyController < ApplicationController
     def new
         @users = User.where(company_id:nil)
+        @users = @users.where(position: 'employee')
         @users_options = @users.each_with_object([]) do |user, array|
             option = [user.email, user.id]
             array << option
