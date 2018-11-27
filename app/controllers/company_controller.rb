@@ -1,6 +1,7 @@
 class CompanyController < ApplicationController
     def new
         @users = User.where(company_id:nil)
+        @users = @users.where(position: 'employee')
         @users_options = @users.each_with_object([]) do |user, array|
             option = [user.email, user.id]
             array << option
@@ -40,7 +41,7 @@ class CompanyController < ApplicationController
         @user = User.find(params[:id])
         @company_id = @user.company.id
         @user.update(company_id: nil)
-        redirect_to employees_index_path(@company_id)
+        redirect_to dashboard_path(current_user.company.id)
     end
     
     def create
@@ -56,7 +57,7 @@ class CompanyController < ApplicationController
             user = @users.find_by(id:i)
             user.update(company_id: @company.id)
         end
-        redirect_to @company
+        redirect_to dashboard_path(@company.id)
     end
 
     def show

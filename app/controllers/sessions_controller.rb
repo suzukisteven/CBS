@@ -12,7 +12,7 @@ class SessionsController < Clearance::SessionsController
       # else: user logs in with OAuth for the first time
       else
         user = User.create_with_auth_and_hash(authentication, auth_hash)
-        @next = '/subscribe_to_plan'
+        @next = '/pricing'
         @notice = "User created. Edit details on your profile page."
       end
 

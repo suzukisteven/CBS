@@ -7,9 +7,14 @@ class UsersController < Clearance::UsersController
         @user.update(user_params)
         redirect_to @user
     end
-    # def edit
-    #     @user = User.find(params[:id])
-    # end
+
+    def create
+        # byebug
+        @user = User.new(user_params)
+        @user.save
+        sign_in(@user)
+        redirect_to pricing_path
+    end
 
     def confirm
         @user = User.find(params[:id])

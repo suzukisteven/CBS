@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   # Individual pages Routes
   get '/index' => "audio#index"
-  get "/show" => "dashboard#show", as: "dashboard"
+  get "/companies/:id/dashboard/show" => "dashboard#show", as: "dashboard"
   get '/users/:id/video' => "video#show", as: 'user_video'
 
   get 'users/:id/texts'=>'text#show', as: "text_analyze"
@@ -58,6 +58,7 @@ Rails.application.routes.draw do
   get 'companies/:id/employees_index' => 'company#employees_index', as:'employees_index'
   patch 'users/:id/remove_employee' => 'company#remove_employee', as:'remove_employee'
   get '/subscribe_to_plan' => 'braintree#subscribe_to_plan', as:'subscribe_to_plan'
+  get '/pricing' => 'braintree#pricing', as:'pricing'
 
   post '/companies/:id/search_employees' => 'company#search', as: 'search_company_employees'
   post '/companies/search' => 'company#search_all_companies', as: 'search_companies'

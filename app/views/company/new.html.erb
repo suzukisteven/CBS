@@ -1,25 +1,31 @@
-<h1>Add company</h1>
+<div class="container">
+<h1>Create Your Company</h1>
+<div class="card">
+  <h5 class="card-header">Details</h5>
+  <div class="card-body">
+    <%= form_with scope: :company, url: companies_path, :html => {:multipart => true}, local: true do |form| %>
+      <div class="form-row">
+        <div class="col">
+         <label for="inputEmail4">Company Name</label>
+          <%= form.text_field :name, class:'form-control', placeholder:'Name' %>
+          <small id="emailHelp" class="form-text text-muted">You cannot change attribute this once created.</small>
+        </div>
+        <div class="col">
+         <label for="inputEmail4">Description</label>
+          <%= form.text_field :description, class:'form-control', placeholder:'Description' %>
+        </div>
+      </div>
+      <p>
+      <%= form.label :"Add Employees" %><br>
+      <%= form.select :user, options_for_select(@users_options), {:include_blank => false}, {:multiple => true} %> 
+      </p>    
 
-<%= form_with scope: :company, url: companies_path, :html => {:multipart => true}, local: true do |form| %>
-  <p>
-    <%= form.label :"Company Name" %><br>
-    <%= form.text_field :name %>
-  </p>
- 
-  <p>
-    <%= form.label :"Description" %><br>
-    <%= form.text_field :description %>
-  </p>
-  <p>
-  <%= form.label :"Add Employees" %><br>
-  <%= form.select :user, options_for_select(@users_options), {:include_blank => false}, {:multiple => true} %> 
-  </p>    
+      <p>
+        <%= form.submit 'Create', class:'btn btn-success', style:'width:100%' %>
+      </p>
+    <% end %>
+  </div>
+</div>
 
-  <p>
-    <%= form.file_field :image %>
-  </p>                           
+</div>
 
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>

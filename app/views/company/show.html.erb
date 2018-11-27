@@ -12,7 +12,7 @@
 
 <%= link_to 'Employees', employees_index_path(@company.id) %></h3>
 
-<% if current_user.position != 0 && current_user.company_id == nil %>
+<% if current_user.position != 'manager' && current_user.company_id == nil %>
   <%= form_with scope: :company, url: company_request_path(@company.id), local: true do |form| %>
     <p>
       <%= form.submit "Request Join", class: "btn btn-primary btn-xs" %>

@@ -34,9 +34,11 @@
         <li class="nav-item">
           <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
         </li>
+        <% if current_user.company_id != nil %>
         <li class="nav-item">
-          <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
+          <%= link_to "Dashboard", dashboard_path(current_user.company.id), class: "nav-link mr-3" %>
         </li>
+        <% end %>
         <li class="nav-item">
           <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
           <% else -%>
@@ -62,14 +64,21 @@
           <p class="hero pl-5 pr-5 pt-4"> Use our emotional analysis tools to gain valuable insights on your customers facial expressions, speech, and text sentiments.</p>
           <p class="hero pl-5 pr-5 pb-3"> Drastically improve the way your business handles the customer experience - <strong>Get started today.</strong></p>
           <div class="container pl-5 text-center">
-            <input id="password-field" class= "form-control mb-2" type="text" name="First Name" placeholder="First Name" style="width: 565px;">
-            <input id="password-field" class= "form-control mb-2" type="text" name="Last Name" placeholder="Last Name" style="width: 565px;">
-            <input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">
-            <input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">
-            <button class= "btn btn-primary mt-3" href="/sign_up" type="button" name="button">Sign Up</button>
-            <button class="btn btn-outline-success mt-3" type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= form_for :user, url: users_path, local:true, :method => 'post' do |form| %>
+            <!--<input id="password-field" class= "form-control mb-2" type="text" name="First Name" placeholder="First Name" style="width: 565px;">-->
+            <%= form.text_field :firstname, class:'form-control mb-2', placeholder:'First Name'%>
+            <!--<input id="password-field" class= "form-control mb-2" type="text" name="Last Name" placeholder="Last Name" style="width: 565px;">-->
+            <%= form.text_field :lastname, class:'form-control mb-2', placeholder:'Last Name' %>
+            <!--<input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">-->
+            <%= form.text_field :email, type: 'email', class:'form-control mb-2', placeholder:'Email' %>
+            <!--<input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">-->
+            <%= form.password_field :password, class:'form-control mb-2', placeholder:'Password' %>
+            <%= form.select :position, ['Manager', 'Employee'], class:'form-control mb-2'%>
+            <%= form.submit 'Sign Up', class:'btn btn-primary mt-3 mb-3' %>
+            <button class="btn btn-outline-success mt-3 mb-3" type="button"  data-toggle="modal" data-target="#exampleModal">
               Sign In
             </button>
+            <% end %>
           </div>
         </div>
       </div>
@@ -111,22 +120,24 @@
           </div>
           <div class="col-md-8">
             <h1 class="text-center mt-3 login-text">Login To Your Account</h1>
-            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-            <div class="input-group mb-2 mr-sm-2 mt-5">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-user"></i></div>
+            <label class="sr-only" for="inlineFormInputGroupUsername2">Email</label>
+            <%= form_for :session, url: session_path do |form| %>
+              <div class="input-group mb-2 mr-sm-2 mt-5">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fas fa-user"></i></div>
+                </div>
+                <%= form.text_field :email, type: 'email', class:'form-control', id:'inlineFormInputGroupUsername2', placeholder:'Email' %>
               </div>
-              <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-            </div>
-            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-            <div class="input-group mb-2 mr-sm-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-lock"></i></div>
+              <label class="sr-only" for="inlineFormInputGroupUsername2">Email</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                </div>
+                <%= form.password_field :password, class:'form-control', id:'inlineFormInputGroupUsername2', placeholder:'Password'%>
               </div>
-              <input type="password" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Password">
-            </div>
-            <input class="btn btn-primary mt-3 mb-3" type="submit" value="Sign In">
-            <input class="btn btn-outline-success mt-3 mb-3" type="submit" value="Forgot your password?">
+                <%= form.submit class:'btn btn-primary mt-3 mb-3' %>
+                <%= link_to "Sign in with Google", "/auth/google_oauth2", class:'btn btn-outline-success mt-3 mb-3' %>
+            <% end %>
           </div>
           </div>
         </div>
@@ -134,3 +145,6 @@
     </div>
   </div>
 </div>
+<script>
+</script>
+
