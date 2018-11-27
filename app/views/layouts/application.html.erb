@@ -19,6 +19,42 @@
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js' %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js' %>
   <%= javascript_include_tag 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js', 'data-turbolinks-track': 'reload' %>
+   <script>
+$(document).on('turbolinks:load', function(){
+
+$("#search-companies").on("keyup", function(){
+  autocomplete()
+});
+
+function autocomplete(){
+  $.ajax({
+    url: '/companies/search',
+    type: 'POST',
+    data: $("#search-companies").serialize(), 
+    dataType: 'json', 
+    error: function() {
+        console.log("Something went wrong");
+    },
+    success: function(data) {
+      document.getElementById('list').innerHTML = '';
+      $("#list").empty();
+
+      var uniquedata = [];
+      $.each(data, function(i, el){
+          if($.inArray(el, uniquedata) === -1) uniquedata.push(el);
+      });
+
+      uniquedata.forEach(function(element) {
+        var option = document.createElement("option");
+        option.value = element;
+        //append option to list
+        $("#list").append(option);
+      });
+    }
+  });
+}
+})
+</script> 
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', 'data-turbolinks-track': 'reload' %>
 
@@ -35,16 +71,14 @@
 
     <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
 
-      <form class="form-inline my-2 my-lg-0">
-        <input id="main-search" class="form-control mr-sm-2 border border-secondary" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-      </form>
+        <%= form_with url: search_companies_path, local: true, class:'form-inline my-2 my-lg-0' , :method => 'post', id: "search-companies"  do |form| %>
+          <%= form.text_field :searchcompany, class: "form-control mr-sm-2", list: 'list' %>
+          <%= form.submit "search", class:"btn btn-outline-success my-2 my-sm-0" %>
+          <datalist id="list"></datalist>
+        <% end %> 
 
       <div>
         <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item"> -->
-            <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
-          <!-- </li> -->
           <% if signed_in? -%>
             <% if signed_in? && current_user.position == 'manager'  && current_user.company_id == nil%>
             <li class="nav-item">

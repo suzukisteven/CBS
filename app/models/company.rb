@@ -4,8 +4,9 @@ class Company < ApplicationRecord
 
     def search_employees(query)
         self.users.where("firstname ILIKE :firstname", firstname:  "%#{query}%")
-        # self.where("firstname ILIKE :firstname", firstname: "%#{query}%").map do |record|
-        #   record.firstname
-        # end
+    end
+
+    def self.search_companies(query)
+        where("name ILIKE :name", name: "%#{query}%")
     end
 end
