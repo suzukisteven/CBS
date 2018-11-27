@@ -104,7 +104,7 @@
           </div>
           <div class="container container-white mt-3 mb-3 ml-0 p-0 letstrythis shadow" style="height: 400px;">
             <h3 class="p-3">Chart Summary</h3>
-             <canvas id="myPie" class="col-10"></canvas> 
+             <canvas id="myPie" class="col-12 mt-5"></canvas> 
           </div>
         </div>
       </div>
@@ -215,68 +215,26 @@
       }
     ]
   };
-  
-   var piedata = {
-        labels: [0],
-        datasets: [{
-        label: "Happiness",
-        lineTension: 0.5,
-        borderWidth: 2,
-        borderColor: 'yellow',
-        backgroundColor: 'rgba(240,243,57,0.1)',
-        data: 0,
-      }, {
-        label: "Sadness",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'cornflowerblue',
-        backgroundColor: 'rgba(39,128,231,0.1)',
-        data: 0,
-      }, {
-        label: "Anger",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'red',
-        backgroundColor: 'rgba(250,0,0,0.1)',
-        data: 0,
-      }, {
-        label: "Contempt",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'green',
-        backgroundColor: 'rgba(0,240,0,0.1)',
-        data: 0,
-      }, {
-        label: "Disgust",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'purple',
-        backgroundColor: 'rgba(110,25,151,0.1)',
-        data: 0,
-      }, {
-        label: "Fear",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'pink',
-        backgroundColor: 'rgba(218,29,235,0.1)',
-        data: 0,
-      }, {
-        label: "Surprise",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'orange',
-        backgroundColor: 'rgba(235,160,30,0.1)',
-        data: 0,
-      }, {
-        label: "Neutral",
-        lineTension: 0.5,
-        borderWidth: 2.33,
-        borderColor: 'grey',
-        backgroundColor: 'rgba(155,155,155,0.1)',
-        data: 0,
-      }
+ var piedata = {
+    datasets: [{
+        data: [],
+        backgroundColor: ['rgba(240,243,57,0.5)','rgba(39,128,231,0.5)','rgba(250,0,0,0.5)','rgba(0,240,0,0.5)','rgba(110,25,151,0.5)','rgba(218,29,235,0.5)','rgba(235,160,30,0.5)','rgba(155,155,155,0.5)'],
+        borderColor: ['yellow','cornflowerblue','red','green','purple','pink','orange','grey']
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Happiness',
+        'Sadness',
+        'Anger',
+        'Contempt',
+        'Disgust',
+        'Fear',
+        'Surprise',
+        'Neutral'
     ]
-  };
+};
+  
 
     
 
@@ -292,9 +250,10 @@
      type: 'pie',
      data: piedata,
      options: {
-       responsive: false,
+       responsive: true,
         legend: {
-        display: false
+        display: true,
+        position :'right'
      }
      
      },
@@ -441,24 +400,20 @@
                         average_fear +=myChart.data.datasets[5].data[numberofarray];
                         average_surprise +=myChart.data.datasets[6].data[numberofarray];
                         average_neutral +=myChart.data.datasets[7].data[numberofarray];
-                        console.log(average_happiness/(myChart.data.datasets[0].data.length-2));
-                        console.log(average_sadness/(myChart.data.datasets[1].data.length-2));
-                        console.log(average_anger/(myChart.data.datasets[2].data.length-2));
-                        console.log(average_contempt/(myChart.data.datasets[3].data.length-2));
-                        console.log(average_disgust/(myChart.data.datasets[4].data.length-2));
-                        console.log(average_fear/(myChart.data.datasets[5].data.length-2));
-                        console.log(average_surprise/(myChart.data.datasets[6].data.length-2));
-                        console.log(average_neutral/(myChart.data.datasets[7].data.length-2));
+
                         numberofarray=numberofarray+1;
                         console.log('new');
+                        myPie.data.datasets[0].data=[];
+                                                                        myPie.update();
+                        console.log( myPie.data.datasets[0].data)
                         myPie.data.datasets[0].data.push(average_happiness/(myChart.data.datasets[0].data.length-2));
-                        myPie.data.datasets[1].data.push(average_sadness/(myChart.data.datasets[1].data.length-2));
-                        myPie.data.datasets[2].data.push(average_anger/(myChart.data.datasets[2].data.length-2));
-                        myPie.data.datasets[3].data.push(average_contempt/(myChart.data.datasets[3].data.length-2));
-                        myPie.data.datasets[4].data.push(average_disgust/(myChart.data.datasets[4].data.length-2));
-                        myPie.data.datasets[5].data.push(average_fear/(myChart.data.datasets[5].data.length-2));
-                        myPie.data.datasets[6].data.push(average_surprise/(myChart.data.datasets[6].data.length-2));
-                        myPie.data.datasets[7].data.push(average_neutral/(myChart.data.datasets[7].data.length-2));
+                        myPie.data.datasets[0].data.push(average_sadness/(myChart.data.datasets[1].data.length-2));
+                        myPie.data.datasets[0].data.push(average_anger/(myChart.data.datasets[2].data.length-2));
+                        myPie.data.datasets[0].data.push(average_contempt/(myChart.data.datasets[3].data.length-2));
+                        myPie.data.datasets[0].data.push(average_disgust/(myChart.data.datasets[4].data.length-2));
+                        myPie.data.datasets[0].data.push(average_fear/(myChart.data.datasets[5].data.length-2));
+                        myPie.data.datasets[0].data.push(average_surprise/(myChart.data.datasets[6].data.length-2));
+                        myPie.data.datasets[0].data.push(average_neutral/(myChart.data.datasets[7].data.length-2));
                                                 myPie.update();
                         scoresList.append("<hr>");
                         }).fail(function (err) {

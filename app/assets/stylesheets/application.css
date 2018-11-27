@@ -187,6 +187,6 @@ canvas {
 }
 
 #myPie {
-  width: 750px!important;
-  height: 250px!important;
+  width: 100%!important;
+  height: 55%!important;
 }

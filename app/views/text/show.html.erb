@@ -9,6 +9,7 @@
     <strong> TEXT RESULT:<br></strong>
     
     <%if @texts.last==nil%>
+    <%elsif @document_tone==nil%>
     <%else%>
         <% @document_tone.each do |obj| %>
             <% obj.each do |key, value| %>
