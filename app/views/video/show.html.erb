@@ -238,6 +238,19 @@
 
                          end.onclick = function () {
                          clearInterval(myVar);
+                         document.getElementById('download-pdf').addEventListener("click", downloadPDF);
+                            function downloadPDF() {
+                            	var newCanvas = document.querySelector('#myChart');
+
+                              // create image from new canvas send toDataURL
+                            	var newCanvasImg = newCanvas.toDataURL("image/png", 1.0);
+
+                              // Generate a PDF using jsPDF .
+                            	var doc = new jsPDF('landscape');
+                            	doc.setFontSize(20);
+                            	doc.addImage(newCanvasImg, 'PNG', 10, 10, 280, 150 );
+                            	doc.save('new-canvas.pdf');
+                             }
                          }
                          video.srcObject = mediaStreamObj;
             }

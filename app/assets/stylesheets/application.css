@@ -185,3 +185,8 @@ canvas {
 .login-text {
   font-weight: 400!important;
 }
+
+#myPie {
+  width: 750px!important;
+  height: 250px!important;
+}
