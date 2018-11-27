@@ -59,5 +59,6 @@ Rails.application.routes.draw do
   get '/subscribe_to_plan' => 'braintree#subscribe_to_plan', as:'subscribe_to_plan'
 
   post '/companies/:id/search_employees' => 'company#search', as: 'search_company_employees'
+  post '/companies/search' => 'company#search_all_companies', as: 'search_companies'
 
 end
