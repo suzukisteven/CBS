@@ -34,6 +34,9 @@
         <li class="nav-item">
           <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
         </li>
+        <li class='nav-item'>
+        <%= link_to "Create Company", new_company_path, class: "nav-link mr-3" %>
+        </li>
         <% if current_user.company_id != nil %>
         <li class="nav-item">
           <%= link_to "Dashboard", dashboard_path(current_user.company.id), class: "nav-link mr-3" %>
