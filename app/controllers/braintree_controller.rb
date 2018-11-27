@@ -11,6 +11,9 @@ class BraintreeController < ApplicationController
     @client_token = Braintree::ClientToken.generate
   end
 
+  def pricing
+  end
+
   def checkout_one
     nonce_from_the_client = params[:checkout_form][:payment_method_nonce]
 

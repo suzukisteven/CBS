@@ -3,147 +3,296 @@
   <div class="row">
 
     <!-- Sidebar Element  -->
-    <!-- Ajax this for graph swapping, changing media results -->
-    <nav id="dashboard-sidebar" class="col-md-2 sidebarColor sidebar shadow" style="height: 95vh;">
-      <div class="sidebar-sticky">
+    <nav id="dashboard-sidebar" class="col-md-2 sidebar sidebar-color defaultPos" style="height:1130px;">
+      <div class="sidebar-sticky" style="position:fixed;">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
         <ul class="nav flex-column">
-          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-video mr-3 text-warning"></i>Video Analysis</li>
-          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-audio mr-3 text-danger"></i>Audio Analysis</li>
+          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><%#= link_to "Face Analysis", video_path %><i class="fas fa-file-video mr-3 text-warning"></i>Face Analysis</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-audio mr-3 text-danger"></i>Speech Analysis</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-font mr-3 text-success"></i>Text Analysis</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-user-tie mr-3 text-primary"></i>Some other stuff</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-superscript mr-3 text-info"></i>Wow Another Link</li>
         </ul>
+        <input id="hide-sidebar-btn" class="btn btn-warning mt-3 rounded-circle" type="button" value="<" onclick="toggleNav();">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Saved Reports</h6>
         <ul class="nav flex-column">
           <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>This Week</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Current Month</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Last Quarter</li>
-          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>2 Long ago 4 me </li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Last Year </li>
         </ul>
       </div>
-      <input type="button" value="Hide SideNav" onclick="hideNav();">
     </nav>
 
-    <!-- Chart Section -->
-    <div id="dashboard-main" class="col-md-10 m-0 p-0 w-100">
-      <div class="container mt-4 mb-4">
-        <div class="row">
-          <div class="col-md-6 container">
-            <h3>Customer Service Rep.</h3>
-            <h4><i class="fas fa-map-marker-alt mr-3"></i>William Smith, <em>NEXT Academy</em></h4>
+    <!-- Chart Section                                        style="left: 15px; -->
+    <div id="dashboard-main" class="col-md-8 p-0 w-100 d-main-bg">
+      <nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted" style="height: 45px;">
+        <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Emotionly</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+          <div class="navbar-links">
+            <ul class="navbar-nav mr-auto">
+              <!-- <li class="nav-item"> -->
+                <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+              <!-- </li> -->
+              <li class="nav-item">
+                <%= link_to "How it Works", video_path, class: "nav-link  mr-3" %>
+              </li>
+              <!-- <li class="nav-item border-dark">
+                <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to "Speech", index_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to "Text", index_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item"> -->
+                <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item">
+                <% if signed_in? -%>
+                <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
+                <% else -%>
+                <%= link_to t(".sign_in"), sign_in_path, class:"nav-link" %>
+                <% end -%>
+              </li>
+            </ul>
           </div>
-          <div class="col-md-6 container">
-            <button class="btn btn-outline-danger btn-sm mt-3" type="button" name="button" style="float: right;">SPANK</button>
-            <button class="btn btn-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">Track</button>
+
+        </div>
+      </nav>
+
+      <div class="container mb-4 border-bottom border-muted">
+        <div class="row">
+          <div class="col-md-6 container mt-3">
+            <h3>Dashboard</h3>
+            <h4><i class="fas fa-user-tie mr-2 text-primary"></i>William Smith: <em>Company Name</em></h4>
+          </div>
+          <div class="col-md-6 container mt-4">
+            <button class="btn btn-outline-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">View Profile</button>
           </div>
         </div>
       </div>
-      <canvas id="myChart" class=""></canvas>
-      <input class="btn btn-success ml-3" type="button" name="" value="Add Dummy Data" onclick = "addData()">
+
+      <div class="container">
+        <div class="row">
+          <div class="container p-3 mr-3 ml-3 d-main-bg shadow">
+            <canvas id="myChart" class="m-0"></canvas>
+            <button id="download-pdf" class="btn btn-primary mt-3 ml-3" type="submit" name="" value="Download as PDF"><i class="fas fa-download"></i> Download as PDF</button>
+            <button id="toggle-sidebar" class="btn btn-outline-danger mt-3 ml-1" type="submit" name="" value="SPANK" onclick = "addData()">SPANK</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="container container-white ml-3 mr-3 mt-3 mb-3 mr-0 p-0 border-right border-muted letstrythis shadow" style="height: 400px;">
+            <h3 class="p-3">Video Output</h3>
+          </div>
+          <div class="container container-white mt-3 mb-3 ml-0 p-0 letstrythis shadow" style="height: 400px;">
+            <h3 class="p-3">Chart Summary</h3>
+            <!-- <canvas id="myPie" width="300" height="300"></canvas> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Right Sidebar Loop through employees and display them for that specific company -->
+    <div class="col-md-2 sidebar d-main-bg border-left border-muted pl-0 pr-0">
+      <h6 class="sidebar-heading text-muted px-3 mt-4 mb-4">Employees</h6>
+      <hr class="my-3">
+      <h6 class="ml-3 mt-3 text-dgrey"> Bella Bayabos <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
+      <hr class="my-3">
+      <h6 class="ml-3 mt-3 text-dgrey"> Calvin Mai <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
+      <hr class="my-3">
+      <h6 class="ml-3 mt-3 text-dgrey"> Steven Suzuki <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
+      <hr class="my-3">
     </div>
 
+    <!-- JS starts here -->
     <script type="text/javascript">
     // Add turbolinks so it initializes when page loads.
-    // Add jsPDF
+
     let canvas = document.getElementById('myChart');
     let ctx = canvas.getContext('2d');
+
+    // let pie = document.getElementById('myPie');
+    // let ctx2 = canvas.getContext('2d');
     // let myChart = document.getElementById('myChart').getContext('2d');
 
     // Global Options ------------------------------------------
     // bar, pie, line, horizontalBar, doughnut, radar, polarArea
+
     // Chart.defaults.global.defaultFontFamily = 'Lato';
     // Chart.defaults.global.defaultFontSize = '14';
     // Charts.defaults.global.defaultFontColor = '#000';
 
+    // Hard-coded test data
     var data = {
       labels: ['5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60'],
       datasets: [{
         label: "Happiness",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2,
         borderColor: 'yellow',
-        backgroundColor: 'rgba(1,1,1,0)',
+        backgroundColor: 'rgba(240,243,57,0.1)',
         data: [65, 99, 32, 33, 45, 40, 50, 50, 50, 73, 10, 50],
       }, {
         label: "Sadness",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'cornflowerblue',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 34, 46, 55, 40, 20, 50, 50, 30, 20, 10],
+        backgroundColor: 'rgba(39,128,231,0.1)',
+        data: [32, 33, 34, 46, 55, 40, 20, 50, 60, 30, 20, 10],
       }, {
         label: "Anger",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'red',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+        backgroundColor: 'rgba(250,0,0,0.1)',
+        data: [60, 25, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
       }, {
         label: "Contempt",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'green',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+        backgroundColor: 'rgba(0,240,0,0.1)',
+        data: [32, 33, 64, 46, 36, 30, 74, 40, 20, 30, 20, 13],
       }, {
         label: "Disgust",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'purple',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+        backgroundColor: 'rgba(110,25,151,0.1)',
+        data: [32, 33, 64, 46, 55, 30, 20, 40, 36, 30, 22, 15],
       }, {
         label: "Fear",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'pink',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
-      }, {
-        label: "Neutral",
-        lineTension: 0.1,
-        borderColor: 'grey',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+        backgroundColor: 'rgba(218,29,235,0.1)',
+        data: [32, 33, 64, 46, 32, 30, 30, 41, 12, 10, 20, 12],
       }, {
         label: "Surprise",
-        lineTension: 0.1,
+        lineTension: 0.5,
+        borderWidth: 2.33,
         borderColor: 'orange',
-        backgroundColor: 'rgba(1,1,1,0)',
-        data: [32, 33, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
+        backgroundColor: 'rgba(235,160,30,0.1)',
+        data: [32, 33, 64, 46, 55, 50, 20, 43, 20, 30, 20, 10],
+      }, {
+        label: "Neutral",
+        lineTension: 0.5,
+        borderWidth: 2.33,
+        borderColor: 'grey',
+        backgroundColor: 'rgba(155,155,155,0.1)',
+        data: [82, 63, 64, 52, 55, 40, 30, 43, 20, 60, 50, 47],
       }
     ]
   };
 
+//   var piedata = [
+//     {
+//              value: 65,
+//              color:"#F7464A",
+//              highlight: "#FF5A5E",
+//              label: "New Scenarios"
+//          },
+//          {
+//              value: 297,
+//              color: "#46BFBD",
+//              highlight: "#5AD3D1",
+//              label: "Responses Submitted"
+//          },
+//          {
+//              value: 225,
+//              color: "#64a789",
+//              highlight: "#5AD3D1",
+//              label: "Responses Graded"
+//          }
+//
+//      ];
+// // };
+
   var myChart = new Chart(ctx, {
     type: 'line',
-    data: data
+    data: data,
+    options: {
+      responsive: false,
+    },
   });
 
-  // test for button onclick to add new data point
-  function addData(){
-    // setTimeout(function(){
-    //
-    // }, 1000)
-    myChart.data.datasets[0].data.push(50);
-    myChart.data.datasets[1].data.push(60);
-    myChart.data.datasets[2].data.push(40);
-    myChart.data.datasets[3].data.push(40);
-    myChart.data.datasets[4].data.push(40);
-    myChart.data.datasets[5].data.push(40);
-    myChart.data.datasets[6].data.push(40);
-    myChart.data.datasets[7].data.push(40);
-    myChart.data.labels.push("Newly added");
+  // var myPie = new Chart(ctx2, {
+  //   type: 'pie',
+  //   data: piedata,
+  //   options: {
+  //     responsive: false,
+  //     legend: {
+  //       position: 'right'
+  //     }
+  //   },
+  // });
 
-    // myChart.data.datasets[0].data[myChart.data.datasets[1].data.length] = 60;
-    // myChart.data.datasets[1].data[myChart.data.datasets[1].data.length] = 50;
-    // myChart.data.datasets[2].data[myChart.data.datasets[1].data.length] = 40;
-    // myChart.data.labels[myChart.data.labels.length] = "Newly added";
-    console.log(data);
-    // console.log(data.length);
+  // Download chart as PDF functionality
+  // Add event listener for button
+  document.getElementById('download-pdf').addEventListener("click", downloadPDF);
+
+  function downloadPDF() {
+  	var newCanvas = document.querySelector('#myChart');
+
+    // create image from new canvas send toDataURL
+  	var newCanvasImg = newCanvas.toDataURL("image/png", 1.0);
+
+    // Generate a PDF using jsPDF .
+  	var doc = new jsPDF('landscape');
+  	doc.setFontSize(20);
+  	doc.addImage(newCanvasImg, 'PNG', 10, 10, 280, 150 );
+  	doc.save('new-canvas.pdf');
+   }
+
+
+  // Button that adds dummy data (testing purposes)
+  function addData(){
+    myChart.data.datasets[0].data.push(25);
+    // myChart.data.datasets[1].data.push(60);
+    myChart.data.datasets[2].data.push(40);
+    // myChart.data.datasets[3].data.push(20);
+    // myChart.data.datasets[4].data.push(30);
+    // myChart.data.datasets[5].data.push(10);
+    myChart.data.datasets[6].data.push(100);
+    // myChart.data.datasets[7].data.push(90);
+    myChart.data.labels.push("Spanked");
     myChart.update();
   }
 
-  function hideNav(){
-    document.getElementById('dashboard-sidebar').classList.add('d-md-none');
-    document.getElementById('dashboard-main').style.marginLeft = "0px";
-  }
-
+  // Toggles the left nav bar to slide in and out (Currently removed on page due to complications with layout)
+  function toggleNav(){
+    console.log($('#dashboard-sidebar').hasClass('slideRight') )
+    if($('#dashboard-sidebar').hasClass('slideRight') || $('#dashboard-sidebar').hasClass('defaultPos')) {
+      if($('#dashboard-sidebar').hasClass('defaultPos')) {
+        document.getElementById('dashboard-sidebar').classList.remove('defaultPos');
+        console.log('default removed')
+      }
+      document.getElementById('dashboard-sidebar').classList.remove('slideRight');
+      document.getElementById('dashboard-main').classList.remove('slideRight');
+      document.getElementById('dashboard-sidebar').classList.add('slideLeft');
+      document.getElementById('dashboard-main').classList.add('slideLeft');
+      console.log('slide left')
+    } else {
+      document.getElementById('dashboard-sidebar').classList.remove('slideLeft');
+      document.getElementById('dashboard-main').classList.remove('slideLeft');
+      document.getElementById('dashboard-sidebar').classList.add('slideRight');
+      document.getElementById('dashboard-main').classList.add('slideRight');
+      console.log('slide right')
+    }
+  };
   </script>
+
   </div>
 </div>

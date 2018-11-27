@@ -1,4 +1,54 @@
 <!-- Landing Page -->
+<nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted">
+  <a class="navbar-brand text-dark" href="/"><i class="fas fa-dice-d20 mr-1"></i>Emotionly</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+
+    <form class="form-inline my-2 my-lg-0">
+      <input id="main-search" class="form-control mr-sm-2 border border-secondary" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <div class="navbar-links">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item"> -->
+          <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+        <!-- </li> -->
+        <li class="nav-item">
+          <%= link_to "How it Works", video_path, class: "nav-link  mr-3" %>
+        </li>
+        <li class="nav-item">
+        <!-- <li class="nav-item">
+          <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
+        </li>
+        <li class="nav-item">
+          <%#= link_to "Speech", index_path, class: "nav-link mr-3" %>
+        </li>
+        <li class="nav-item">
+          <%#= link_to "Text", index_path, class: "nav-link mr-3" %>
+        </li> -->
+        <li class="nav-item">
+          <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
+        </li>
+        <li class="nav-item">
+          <% if signed_in? -%>
+          <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
+          <% else -%>
+          <%= link_to t(".sign_in"), sign_in_path, class:"nav-link" %>
+          <% end -%>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
 <div class="container-fluid">
   <div class="container-fluid">
     <div class="row">
@@ -9,20 +59,24 @@
 
         <div id="hero-showcase-right" class="col-md-6 d-inline-block mt-3 bg-white shadow-lg rounded border border-muted">
           <h1 class="pl-5 pr-5 pt-5 mt-5" style="font-size: 42px;"><strong>Empathise</strong> with your customers <strong>effectively.</strong></h1>
-          <p class="hero pl-5 pr-5 pt-5"> Use our emotional analysis tools to gain valuable insights on your customers facial expressions, vocal intonation, and text sentiments.</p>
-          <p class="hero pl-5 pr-5 pb-3"> Drastically improve the way your business handles the customer experience. <strong>Get started today.</strong></p>
-          <div class="container mt-4 pl-5 text-center">
-            <input id="username-field" class= "form-control mb-3" type="text" name="Username" placeholder="Username" style="width: 565px;">
-            <input id="password-field" class= "form-control mb-3" type="password" name="Password" placeholder="Password" style="width: 565px;">
-            <button class= "btn btn-success" type="button" name="button">Sign Up</button>
-            <button class= "btn btn-outline-primary" type="button" name="button">Sign In</button>
+          <p class="hero pl-5 pr-5 pt-4"> Use our emotional analysis tools to gain valuable insights on your customers facial expressions, speech, and text sentiments.</p>
+          <p class="hero pl-5 pr-5 pb-3"> Drastically improve the way your business handles the customer experience - <strong>Get started today.</strong></p>
+          <div class="container pl-5 text-center">
+            <input id="password-field" class= "form-control mb-2" type="text" name="First Name" placeholder="First Name" style="width: 565px;">
+            <input id="password-field" class= "form-control mb-2" type="text" name="Last Name" placeholder="Last Name" style="width: 565px;">
+            <input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">
+            <input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">
+            <button class= "btn btn-primary mt-3" href="/sign_up" type="button" name="button">Sign Up</button>
+            <button class="btn btn-outline-success mt-3" type="button"  data-toggle="modal" data-target="#exampleModal">
+              Sign In
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="container-fluid p-3 mt-5 mb-5 bg-white shadow-lg rounded">
-        <h1 class="mb-5">I'm working on deez bits kk</h1>
+        <h1 class="mb-5">How it works</h1>
         <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
         <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
         <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
@@ -31,17 +85,52 @@
     <div class="row">
       <div class="container d-flex">
         <div class="container d-inline-block mr-5 mb-5 text-center bg-white shadow-lg rounded">
-          <h1> <i class="far fa-file-video"></i> test</h1>
+          <h1> <i class="far fa-file-video"></i> Video</h1>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
         </div>
         <div class="container d-inline-block mr-5 mb-5 text-center bg-white shadow-lg rounded">
-          <h1> <i class="fas fa-comments"></i> test</h1>
+          <h1> <i class="fas fa-comments"></i> Audio</h1>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
         </div>
         <div class="container d-inline-block mb-5 text-center bg-white shadow-lg rounded">
-          <h1> <i class="fas fa-file-alt"></i> test</h1>
+          <h1> <i class="fas fa-file-alt"></i> Text</h1>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ut alias doloribus fugit cupiditate autem tempore placeat dicta exercitationem esse officiis distinctio, eos, enim id consequatur expedita asperiores inventore corporis, sint vel quae voluptatum veritatis nemo. Quod aliquid aut repudiandae esse ea. Quibusdam necessitatibus iusto, rerum vero veniam. Maxime, voluptatibus. </p>
         </div>
       </div>
     </div>
+</div>
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:800px;">
+      <div class="container border border-dark">
+        <div class="row">
+          <div class="col-md-4 login-bg text-white text-center">
+            <h2><i class="fas fa-brain fa-5x mt-3"></i></h2>
+            <h6 class="mb-3">"Empathy begins with understanding life from another person's perspective. </br></br> Nobody has an objective experience of reality. It's all through our own individual prisms."</h6>
+          </div>
+          <div class="col-md-8">
+            <h1 class="text-center mt-3 login-text">Login To Your Account</h1>
+            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+            <div class="input-group mb-2 mr-sm-2 mt-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-user"></i></div>
+              </div>
+              <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+            </div>
+            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-lock"></i></div>
+              </div>
+              <input type="password" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Password">
+            </div>
+            <input class="btn btn-primary mt-3 mb-3" type="submit" value="Sign In">
+            <input class="btn btn-outline-success mt-3 mb-3" type="submit" value="Forgot your password?">
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

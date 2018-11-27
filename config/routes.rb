@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'braintree/new'
   get 'braintree/new_six'
   get 'braintree/new_one'
+  get 'braintree/pricing'
   post 'braintree/checkout'
   post 'braintree/checkout_six'
   post 'braintree/checkout_one'

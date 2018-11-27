@@ -1,6 +1,6 @@
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <header>
-        <h1>CBS EMOTION ANALYZER</h1>
+        <h1>Real Time Video Analysis</h1>
     </header>
     <main>
         <video controls></video>
@@ -32,9 +32,9 @@
         <h2>Emotions</h2>
             <ul id="scores">
             </ul> %>
-  
-    </main>    
-    
+
+    </main>
+
     <script >
         const captureVideoButton = document.querySelector('#screenshot .capture-button');
         const screenshotButton = document.querySelector('#screenshot-button');
@@ -43,56 +43,48 @@
         const img = document.querySelector('#screenshot-img');
         const canvas = document.createElement('canvas');
         let chartCanvas = document.getElementById('myChart');
-        let ctx = chartCanvas.getContext('2d');       
+        let ctx = chartCanvas.getContext('2d');
         var time_second = 0;
 
         var data = {
                     labels: [0],
                     datasets: [{
                     label: "Happiness",
-                    lineTension: 0.1,
                     borderColor: 'Orange',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
                 }, {
                     label: "Sadness",
-                    lineTension: 0.1,
                     borderColor: 'cornflowerblue',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
                 }, {
                     label: "Anger",
-                    lineTension: 0.1,
                     borderColor: 'red',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
                 }, {
                     label: "Contempt",
-                    lineTension: 0.1,
                     borderColor: 'green',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
                 }, {
                      label: "Disgust",
-                     lineTension: 0.1,
                      borderColor: 'purple',
                      backgroundColor: 'rgba(1,1,1,0)',
                      data: [0],
                 }, {
                      label: "Fear",
-                     lineTension: 0.1,
                      borderColor: 'pink',
                      backgroundColor: 'rgba(1,1,1,0)',
                      data: [0],
                 }, {
                     label: "Neutral",
-                    lineTension: 0.1,
                     borderColor: 'grey',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
                 }, {
                     label: "Surprise",
-                    lineTension: 0.1,
                     borderColor: 'yellow',
                     backgroundColor: 'rgba(1,1,1,0)',
                     data: [0],
@@ -145,8 +137,8 @@
              let video = document.querySelector('video');
              if ("srcObject" in video) {
             screenshotButton.onclick = video.onclick = function () {
-            var myVar = setInterval(myTimer, 3300); //TIME 10seconds
-                
+            var myVar = setInterval(myTimer, 3100); //TIME 10seconds
+
                 function myTimer() {
                     time_second = 3 + time_second;
 
@@ -217,16 +209,16 @@
                         <%# for (var prop in scores) {
                             scoresList.append("<li> " + prop + ": " + (scores[prop] * 100).toFixed(2) + "</li>");
                         } %>
-                          
+
                         // let myChart = document.getElementById('myChart').getContext('2d');
-                    
+
                         // Global Options ------------------------------------------
                         // bar, pie, line, horizontalBar, doughnut, radar, polarArea
                         // Chart.defaults.global.defaultFontFamily = 'Lato';
                         // Chart.defaults.global.defaultFontSize = '14';
                         // Charts.defaults.global.defaultFontColor = '#000';
-                    
-                    
+
+
                         //test for button onclick to add new data point
                         myChart.data.datasets[0].data.push(scores.happiness*100);
                         myChart.data.datasets[1].data.push(scores.sadness*100);
@@ -243,7 +235,7 @@
                         alert("Error: " + JSON.stringify(err));
                         });
                         };
-              
+
                          end.onclick = function () {
                          clearInterval(myVar);
                          }
@@ -262,4 +254,3 @@
         //add listeners for saving video/audio
         })
         </script>
-       
