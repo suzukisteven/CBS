@@ -24,6 +24,8 @@
          </div>
          <canvas id="myChart" class=""></canvas>
     </div>
+      <button id="exportChart">Export Chart</button>
+
         <%# <h2>Face Rectangle</h2>
             <ul id="faceRectangle">
             </ul>
@@ -226,7 +228,6 @@
                     
                     
                         //test for button onclick to add new data point
-                        console.log(myChart.data.datasets[0].data)
                         myChart.data.datasets[0].data.push(scores.happiness*100);
                         myChart.data.datasets[1].data.push(scores.sadness*100);
                         myChart.data.datasets[2].data.push(scores.anger*100);
@@ -244,7 +245,7 @@
                         };
               
                          end.onclick = function () {
-                             clearInterval(myVar);
+                         clearInterval(myVar);
                          }
                          video.srcObject = mediaStreamObj;
             }
