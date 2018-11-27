@@ -5,12 +5,11 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   # Individual pages Routes
-  get '/companies/:company_id/users/:id/index' => "audio#index", as: "audio_index"
-  get 'companies/:id/dashboard/show' => "dashboard#show", as: "dashboard"
-  # get '/users/:id/video' => "video#show", as: 'user_video'
-  get 'companies/:company_id/users/:id/text_analysis' => "text#show", as: "text_analyze"
+  get '/companies/:company_id/users/:id/index' => "audio#index", as:'audio_index'
+  get "/companies/:id/dashboard/show" => "dashboard#show", as: "dashboard"
+  get '/users/:id/video' => "video#show", as: 'user_video'
+  get '/companies/:company_id/users/:id/text_analysis' => 'text#show', as: 'text_analyze'
 
-  # get 'users/:id/texts'=>'text#show', as: "text_analyze"
  post 'users/:id/texts'=>'text#create', as:"text_upload"
   # Braintree Payment Routes
   get 'braintree/new'
