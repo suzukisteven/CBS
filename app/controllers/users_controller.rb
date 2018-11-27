@@ -13,7 +13,7 @@ class UsersController < Clearance::UsersController
         @user = User.new(user_params)
         @user.save
         sign_in(@user)
-        redirect_to root_url
+        redirect_to pricing_path
     end
 
     def confirm

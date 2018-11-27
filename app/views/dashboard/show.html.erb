@@ -114,7 +114,7 @@
         <div class="row">
           <div class="col-md-6 container mt-3">
             <h3>Dashboard</h3>
-            <h4><i class="fas fa-user-tie mr-2 text-primary"></i>William Smith: <em>Company Name</em></h4>
+            <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname.upcase%> <%=current_user.lastname.upcase%>:<em> <%= @company.name.upcase %></em></h4>
           </div>
           <div class="col-md-6 container mt-4">
             <button class="btn btn-outline-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">View Profile</button>
@@ -158,12 +158,17 @@
     <!-- Right Sidebar Loop through employees and display them for that specific company -->
     <div class="col-md-2 sidebar d-main-bg border-left border-muted pl-0 pr-0">
       <h6 class="sidebar-heading text-muted px-3 mt-4 mb-4">Employees</h6>
-      <hr class="my-3">
-      <h6 class="ml-3 mt-3 text-dgrey"> Bella Bayabos <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
-      <hr class="my-3">
-      <h6 class="ml-3 mt-3 text-dgrey"> Calvin Mai <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
-      <hr class="my-3">
-      <h6 class="ml-3 mt-3 text-dgrey"> Steven Suzuki <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
+      <% @employees.each do |e| %>
+        <% next if e.position == 'manager' %>
+          <hr class="my-3">
+          <img class='ml-2' src=<%=e.image_url(:thumb).to_s%> style="width:2.5rem; border-radius:35px;">
+          <h6 class="ml-1 text-dgrey d-inline-block"> <%= e.firstname %>
+            <% if current_user.position == 'manager' %>
+              <%= link_to '×', remove_employee_path(e.id),
+                          method: :patch,
+                          data: { confirm: 'Remove employee?' } %></li><br/>
+            <% end %></h6>
+      <% end %>
       <hr class="my-3">
     </div>
 

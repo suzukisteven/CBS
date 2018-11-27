@@ -12,6 +12,7 @@ class BraintreeController < ApplicationController
   end
 
   def pricing
+    render 'pricing'
   end
 
   def checkout_one
@@ -40,7 +41,6 @@ class BraintreeController < ApplicationController
       :plan_id => '9s3g',
       :payment_method_token => customer.payment_methods[0].token
       )
-    byebug
 
     if result.success?
       redirect_to :root, :flash => { :success => "Transaction successful!" }
@@ -58,7 +58,6 @@ class BraintreeController < ApplicationController
       :plan_id => 'qqfr',
       :payment_method_token => customer.payment_methods[0].token
       )
-    byebug
 
     if result.success?
       redirect_to :root, :flash => { :success => "Transaction successful!" }

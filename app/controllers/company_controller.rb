@@ -40,7 +40,7 @@ class CompanyController < ApplicationController
         @user = User.find(params[:id])
         @company_id = @user.company.id
         @user.update(company_id: nil)
-        redirect_to employees_index_path(@company_id)
+        redirect_to dashboard_path(current_user.company.id)
     end
     
     def create

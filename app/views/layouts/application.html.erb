@@ -78,7 +78,7 @@
           <% end %>
           <% if current_user.company_id != nil %>
           <li class="nav-item">
-            <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
+            <%= link_to "Dashboard", dashboard_path(current_user.company.id), class: "nav-link mr-3" %>
           </li>
           <% end %>
           <li class="nav-item">
