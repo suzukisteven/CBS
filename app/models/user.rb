@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :company, optional: true
   has_many :databases, dependent:  :destroy
   has_many :videos, dependent:  :destroy
-  enum position: { manager: 0, employee: 1}
+  enum position: { manager: 'Manager', employee: 'Employee'}
  
   def self.create_with_auth_and_hash(authentication, auth_hash)
     user = self.create!(
