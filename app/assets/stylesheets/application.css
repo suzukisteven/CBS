@@ -63,6 +63,7 @@ h3 {
 }
 .nav-link:hover {
   color: #007bff !important;
+  font-weight: 400!important;
 }
 
 /* Search Bar */
@@ -138,10 +139,14 @@ h3 {
   margin-left: 205px;
 }
 
+#dashboard-main {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 canvas {
   /* 546 */
-  width: 900px!important;
-  height: 450px!important;
+  /* height: 450px!important; */
 }
 
 .letstrythis {
@@ -189,4 +194,8 @@ canvas {
 #myPie {
   width: 100%!important;
   height: 55%!important;
+}
+
+.underline-none {
+  text-decoration: none!important;
 }

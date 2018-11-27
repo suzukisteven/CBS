@@ -3,13 +3,25 @@
   <div class="row">
 
     <!-- Sidebar Element  -->
-    <nav id="dashboard-sidebar" class="col-md-2 sidebar sidebar-color defaultPos" style="height:1130px;">
+    <nav id="dashboard-sidebar" class="col-md-2 sidebar sidebar-color defaultPos">
       <div class="sidebar-sticky" style="position:fixed;">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
         <ul class="nav flex-column">
-          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><%#= link_to "Face Analysis", video_path %><i class="fas fa-file-video mr-3 text-warning"></i>Face Analysis</li>
-          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-audio mr-3 text-danger"></i>Speech Analysis</li>
-          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-font mr-3 text-success"></i>Text Analysis</li>
+          <%= link_to dashboard_path, class:"underline-none" do %>
+            <li class="nav-item mt-4 mb-4 sidebarNavLinks">
+              <i class="fas fa-file-video mr-3 text-warning"></i>Face Analysis
+            </li>
+          <% end %>
+          <%= link_to index_path, class:"underline-none" do %>
+            <li class="nav-item mb-4 sidebarNavLinks">
+              <i class="fas fa-file-audio mr-3 text-danger"></i>Speech Analysis
+            </li>
+          <% end %>
+          <%= link_to text_analyze_path(current_user.id), class:"underline-none" do %>
+            <li class="nav-item mb-4 sidebarNavLinks">
+              <i class="fas fa-font mr-3 text-success"></i>Text Analysis
+            </li>
+          <% end %>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-user-tie mr-3 text-primary"></i>Some other stuff</li>
           <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-superscript mr-3 text-info"></i>Wow Another Link</li>
         </ul>
@@ -33,6 +45,13 @@
         </button>
 
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+
+          <%#= form_with url: search_companies_path, local: true, class:'form-inline my-2 my-lg-0' , :method => 'post', id: "search-companies"  do |form| %>
+            <%#= form.text_field :searchcompany, class: "form-control mr-sm-2", style:"height:20px;", list: 'list' %>
+            <%#= form.submit "search", class:"btn btn-outline-success btn-sm my-2 my-sm-0" %>
+            <!-- <datalist id="list"></datalist> -->
+          <%# end %>
+
           <div class="navbar-links">
             <ul class="navbar-nav mr-auto">
               <!-- <li class="nav-item"> -->
@@ -53,9 +72,31 @@
               <li class="nav-item"> -->
                 <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
               </li>
+              <% if signed_in? -%>
+                <% if signed_in? && current_user.position == 'manager'  && current_user.company_id == nil%>
+                <li class="nav-item">
+                  <%= link_to "Add Company", new_company_path, class: "nav-link mr-3" %>
+                </li>
+                <% end %>
+              <% end %>
+              <% if current_user.company_id != nil %>
+                <li class="nav-item">
+                  <%= link_to "Company Home", company_path(current_user.company_id), class: "nav-link mr-3" %>
+                </li>
+              <% end %>
               <li class="nav-item">
                 <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
               </li>
+              <li class="nav-item">
+                <%= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item btn-group" data-behavior='notifications'>
+                 <a class="dropdown-toggle nav-link" type="button" data-behavior='notifications-link' id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-flag text-danger"></i>
+                   <span data-behavior='unread-count'></span>
+                 </a>
+                 <div class="dropdown-menu dropdown-to" aria-labelledby="dropdownMenuButton" data-behavior="notification-items"></div>
+             </li>
               <li class="nav-item">
                 <% if signed_in? -%>
                 <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
@@ -69,7 +110,7 @@
         </div>
       </nav>
 
-      <div class="container mb-4 border-bottom border-muted">
+      <div class="container-fluid mb-4 border-bottom border-muted">
         <div class="row">
           <div class="col-md-6 container mt-3">
             <h3>Dashboard</h3>
@@ -81,17 +122,20 @@
         </div>
       </div>
 
-      <div class="container">
+
+
+      <div class="container-fluid">
+
         <div class="row">
-          <div class="container p-3 mr-3 ml-3 d-main-bg shadow">
-            <canvas id="myChart" class="m-0"></canvas>
-            <button id="download-pdf" class="btn btn-primary mt-3 ml-3" type="submit" name="" value="Download as PDF"><i class="fas fa-download"></i> Download as PDF</button>
-            <button id="toggle-sidebar" class="btn btn-outline-danger mt-3 ml-1" type="submit" name="" value="SPANK" onclick = "addData()">SPANK</button>
+          <div class="col-md-12">
+            <div class="p-3 d-main-bg shadow">
+              <canvas id="myChart"></canvas>
+              <button id="download-pdf" class="btn btn-primary mt-3 ml-3" type="submit" name="" value="Download as PDF"><i class="fas fa-download"></i> Download as PDF</button>
+              <button id="toggle-sidebar" class="btn btn-outline-danger mt-3 ml-1" type="submit" name="" value="SPANK" onclick = "addData()">SPANK</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="container">
         <div class="row">
           <div class="container container-white ml-3 mr-3 mt-3 mb-3 mr-0 p-0 border-right border-muted letstrythis shadow" style="height: 400px;">
             <h3 class="p-3">Video Output</h3>
@@ -107,6 +151,7 @@
              <canvas id="myPie" class="col-12 mt-5"></canvas> 
           </div>
         </div>
+
       </div>
 
     </div>
@@ -242,7 +287,7 @@
     type: 'line',
     data: data,
     options: {
-      responsive: false,
+      responsive: true,
     },
   });
 
