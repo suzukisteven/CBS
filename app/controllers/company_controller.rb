@@ -57,7 +57,7 @@ class CompanyController < ApplicationController
             user = @users.find_by(id:i)
             user.update(company_id: @company.id)
         end
-        redirect_to @company
+        redirect_to dashboard_path(@company.id)
     end
 
     def show
