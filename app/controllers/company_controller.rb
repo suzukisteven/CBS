@@ -27,7 +27,7 @@ class CompanyController < ApplicationController
         @company= Company.find_by(name: params["searchcompany"])
 
         respond_to do |format|
-            format.html { redirect_to company_path(@company.id) }
+            format.html { redirect_to dashboard_path(@company.id) }
             format.json { render json: @search_companies.map{|c| c.name}}
         end
     end
