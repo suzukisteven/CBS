@@ -39,7 +39,7 @@
                 <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
               <!-- </li> -->
               <li class="nav-item">
-                <%= link_to "How it Works", video_path, class: "nav-link  mr-3" %>
+                <%= link_to "How it Works", user_video_path(current_user.id), class: "nav-link  mr-3" %>
               </li>
               <!-- <li class="nav-item border-dark">
                 <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
