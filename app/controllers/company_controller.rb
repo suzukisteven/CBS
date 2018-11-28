@@ -43,7 +43,7 @@ class CompanyController < ApplicationController
         @user.update(company_id: nil)
         redirect_to dashboard_path(current_user.company.id)
     end
-    
+
     def create
         @users = User.all
         @company = Company.new(company_params)
@@ -69,7 +69,7 @@ class CompanyController < ApplicationController
     def update
         @company = Company.find(params[:id])
     end
-    
+
     private
     def company_params
         # Return value is a hash

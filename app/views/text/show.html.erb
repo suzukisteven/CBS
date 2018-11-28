@@ -109,8 +109,8 @@
             <div class="row">
               <div class="col-md-6 container mt-3">
                 <h3>Dashboard</h3>
-                <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname%><em><%=@company.name.upcase %></em></h4>
-                <p>ABOUT <span class="text-muted"><%=@company.description%></span></p>
+                <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname%> <%=current_user.lastname%> - <em><%=@company.name.upcase %></em></h4>
+                <p><span class="text-muted"><%=@company.description%></span></p>
               </div>
               <div class="col-md-6 container mt-4">
                 <button class="btn btn-outline-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">View Profile</button>
@@ -157,7 +157,10 @@
                       <% @document_tone.each do |obj| %>
                           <% obj.each do |key, value| %>
                               <% if key == "text"  %>
-                                  <strong>Sentence:</strong> <%= value %><br>                        
+                                  <% if value.empty?%>
+                                  <%else%>
+                                  <strong>Sentence:</strong> <%= value %><br>
+                                  <% end %>
                               <% elsif key == "tones"%>
                                   <% if value.empty?%>
                                   <strong>Emotion:</strong>Neutral<hr>
@@ -235,10 +238,10 @@ var myPie = new Chart(ctx2, {
         // Charts.defaults.global.defaultFontColor = '#000';
 
         // Hard-coded test data
-  
 
- 
-    
+
+
+
 
       // var myChart = new Chart(ctx, {
       //   type: 'bar',
@@ -248,7 +251,7 @@ var myPie = new Chart(ctx2, {
       //   },
       // });
 
-     
+
 
       // Download chart as PDF functionality
       // Add event listener for button

@@ -109,7 +109,8 @@
         <div class="row">
           <div class="col-md-6 container mt-3">
             <h3>Dashboard</h3>
-            <h4><i class="fas fa-user-tie mr-2 text-primary"></i>William Smith: <em>Company Name</em></h4>
+            <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname%> <%=current_user.lastname%> - <em><%=@company.name.upcase %></em></h4>
+            <p><span class="text-muted"><%=@company.description%></span></p>
           </div>
           <div class="col-md-6 container mt-4">
             <button class="btn btn-outline-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">View Profile</button>

@@ -39,7 +39,7 @@
     <!-- Chart Section                                        style="left: 15px; -->
     <div id="dashboard-main" class="col-md-8 p-0 w-100 d-main-bg">
       <nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted" style="height: 45px;">
-        <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Emotionly</a>
+        <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Empath</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,8 +106,8 @@
         <div class="row">
           <div class="col-md-6 container mt-3">
             <h3>Dashboard</h3>
-            <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname.upcase%> <%=current_user.lastname.upcase%>:<em> <%= @company.name.upcase %></em></h4>
-            <p>ABOUT <span class="text-muted"><%=@company.description%></span></p>
+            <h4><i class="fas fa-user-tie mr-2 text-primary"></i><%=current_user.firstname%> <%=current_user.lastname%> - <em> <%= @company.name.upcase %></em></h4>
+            <p><span class="text-muted"><%=@company.description%></span></p>
           </div>
           <div class="col-md-6 container mt-4">
             <div class='row' style='float: right;'>

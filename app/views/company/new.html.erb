@@ -1,31 +1,30 @@
 <div class="container">
-<h1>Create Your Company</h1>
-<div class="card">
-  <h5 class="card-header">Details</h5>
+<div class="card mt-5">
+  <h5 class="card-header text-center">Create a Company</h5>
   <div class="card-body">
     <%= form_with scope: :company, url: companies_path, :html => {:multipart => true}, local: true do |form| %>
       <div class="form-row">
         <div class="col">
          <label for="inputEmail4">Company Name</label>
-          <%= form.text_field :name, class:'form-control', placeholder:'Name' %>
-          <small id="emailHelp" class="form-text text-muted">You cannot change attribute this once created.</small>
+          <%= form.text_field :name, class:'form-control border border-dark', placeholder:'Name' %>
+          <small id="emailHelp" class="form-text text-muted">You cannot change this attribute once created.</small>
         </div>
         <div class="col">
          <label for="inputEmail4">Description</label>
-          <%= form.text_field :description, class:'form-control', placeholder:'Description' %>
+          <%= form.text_field :description, class:'form-control border border-dark', placeholder:'Description' %>
+          <small id="emailHelp" class="form-text text-muted">Write a short description of your company. (Max 100 characters)</small>
         </div>
       </div>
-      <p>
+      <p class="mt-3">
       <%= form.label :"Add Employees" %><br>
-      <%= form.select :user, options_for_select(@users_options), {:include_blank => false}, {:multiple => true} %> 
-      </p>    
+      <%= form.select :user, options_for_select(@users_options), {:include_blank => false, :multiple => true}, {class:'form-control border border-dark'} %>
+      </p>
 
       <p>
-        <%= form.submit 'Create', class:'btn btn-success', style:'width:100%' %>
+        <%= form.submit 'Create Your Company', class:'btn btn-success', style:'width:100%' %>
       </p>
     <% end %>
   </div>
 </div>
 
 </div>
-
