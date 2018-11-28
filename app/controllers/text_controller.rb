@@ -1,35 +1,18 @@
 class TextController < ApplicationController
-<<<<<<< HEAD
 
-=======
->>>>>>> fixed up whacky routes
     def show
         @text = Database.new
         @texts = Database.all
         @company = Company.find(params[:company_id])
         @employees = @company.users
-<<<<<<< HEAD
-        if(Database.last)
-          if(Database.last.text_result)
 
-              Database.last.text_result.each do |key, value|
-                  if key == "sentences_tone"
-                      @document_tone = value
-                  end
-              end
-          else
-              text = Database.last.text
-              tone = tone_analyzer.tone(
-              tone_input: {text: text},
-              content_type: "application/json"
-              )
-              @sentence_tone_score= Database.last.text_result
-              @document_tone = []
-              Database.last.update(text_result:tone.result)
-           end
+        if(Database.last)
+            Database.last.text_result.each do |key, value|
+                if key == "sentences_tone"
+                    @document_tone = value
+                end
+            end
         end
-=======
->>>>>>> fixed up whacky routes
     end
 
     def create
@@ -43,7 +26,6 @@ class TextController < ApplicationController
         )
         if(Database.last)
           if(Database.last.text_result)
-
               Database.last.text_result.each do |key, value|
                   if key == "sentences_tone"
                       @document_tone = value
@@ -61,11 +43,11 @@ class TextController < ApplicationController
            end
         end
 
-        @database = Database.last.to_json
+        @database = Database.last.text_result.to_json
         p @database
 
         respond_to do |format|
-          format.html { redirect_to text_analyze_path }
+          format.html {redirect_to text_analyze_path}
           format.js
         end
     end

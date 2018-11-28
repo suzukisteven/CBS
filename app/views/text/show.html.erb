@@ -137,7 +137,7 @@
               <div class="col-md-6 pl-2">
                 <div class="container-white mt-3 mb-3 p-0 shadow" style="height: 400px;">
                   <h3 class="p-3">Analysis Summary</h3>
-                  <!-- <canvas id="myPie" width="300" height="300"></canvas> -->
+                  <canvas id="textPie" class="col-11"></canvas>
                 </div>
               </div>
             </div>
@@ -157,10 +157,12 @@
                       <% @document_tone.each do |obj| %>
                           <% obj.each do |key, value| %>
                               <% if key == "text"  %>
-                                  <strong>Sentence:</strong> <%= value %><br>
+                                  <% if value.empty?%>
+                                  <%else%>
+                                  <strong>Sentence:</strong> <%= value %><br>                        
+                                  <% end %>
                               <% elsif key == "tones"%>
                                   <% if value.empty?%>
-                                  <strong>Emotion:</strong> <%= "Neutral" %><hr>
                                   <% end %>
                                   <% next if value.empty? %>
                                   <% value[0].each do |key, value| %>
@@ -201,13 +203,31 @@
         <!-- JS starts here -->
         <script type="text/javascript">
         // Add turbolinks so it initializes when page loads.
+   let pie = document.getElementById('textPie');
 
-        // let canvas = document.getElementById('myChart');
-        // let ctx = canvas.getContext('2d');
+let ctx2 = pie.getContext('2d');
+var piedata = {
+    datasets: [{
+        data: [],
+        backgroundColor: []
+    }],
 
-        // let pie = document.getElementById('myPie');
-        // let ctx2 = canvas.getContext('2d');
-        // let myChart = document.getElementById('myChart').getContext('2d');
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+    ]
+};
+var myPie = new Chart(ctx2, {
+    type: 'bar',
+    data: piedata,
+    options: {
+      responsive: false,
+      legend: {
+        display:false,
+        position: 'right'
+      }
+    },
+  });
+
 
         // Global Options ------------------------------------------
         // bar, pie, line, horizontalBar, doughnut, radar, polarArea
@@ -217,90 +237,10 @@
         // Charts.defaults.global.defaultFontColor = '#000';
 
         // Hard-coded test data
-      //   var data = {
-      //     labels: ['5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60'],
-      //     datasets: [{
-      //       label: "Happiness",
-      //       lineTension: 0.5,
-      //       borderWidth: 2,
-      //       borderColor: 'yellow',
-      //       backgroundColor: 'rgba(240,243,57,0.1)',
-      //       data: [65, 99, 32, 33, 45, 40, 50, 50, 50, 73, 10, 50],
-      //     }, {
-      //       label: "Sadness",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'cornflowerblue',
-      //       backgroundColor: 'rgba(39,128,231,0.1)',
-      //       data: [32, 33, 34, 46, 55, 40, 20, 50, 60, 30, 20, 10],
-      //     }, {
-      //       label: "Anger",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'red',
-      //       backgroundColor: 'rgba(250,0,0,0.1)',
-      //       data: [60, 25, 64, 46, 55, 30, 20, 40, 20, 30, 20, 10],
-      //     }, {
-      //       label: "Contempt",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'green',
-      //       backgroundColor: 'rgba(0,240,0,0.1)',
-      //       data: [32, 33, 64, 46, 36, 30, 74, 40, 20, 30, 20, 13],
-      //     }, {
-      //       label: "Disgust",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'purple',
-      //       backgroundColor: 'rgba(110,25,151,0.1)',
-      //       data: [32, 33, 64, 46, 55, 30, 20, 40, 36, 30, 22, 15],
-      //     }, {
-      //       label: "Fear",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'pink',
-      //       backgroundColor: 'rgba(218,29,235,0.1)',
-      //       data: [32, 33, 64, 46, 32, 30, 30, 41, 12, 10, 20, 12],
-      //     }, {
-      //       label: "Surprise",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'orange',
-      //       backgroundColor: 'rgba(235,160,30,0.1)',
-      //       data: [32, 33, 64, 46, 55, 50, 20, 43, 20, 30, 20, 10],
-      //     }, {
-      //       label: "Neutral",
-      //       lineTension: 0.5,
-      //       borderWidth: 2.33,
-      //       borderColor: 'grey',
-      //       backgroundColor: 'rgba(155,155,155,0.1)',
-      //       data: [82, 63, 64, 52, 55, 40, 30, 43, 20, 60, 50, 47],
-      //     }
-      //   ]
-      // };
+  
 
-    //   var piedata = [
-    //     {
-    //              value: 65,
-    //              color:"#F7464A",
-    //              highlight: "#FF5A5E",
-    //              label: "New Scenarios"
-    //          },
-    //          {
-    //              value: 297,
-    //              color: "#46BFBD",
-    //              highlight: "#5AD3D1",
-    //              label: "Responses Submitted"
-    //          },
-    //          {
-    //              value: 225,
-    //              color: "#64a789",
-    //              highlight: "#5AD3D1",
-    //              label: "Responses Graded"
-    //          }
-    //
-    //      ];
-    // // };
+ 
+    
 
       // var myChart = new Chart(ctx, {
       //   type: 'bar',
@@ -310,16 +250,7 @@
       //   },
       // });
 
-      // var myPie = new Chart(ctx2, {
-      //   type: 'pie',
-      //   data: piedata,
-      //   options: {
-      //     responsive: false,
-      //     legend: {
-      //       position: 'right'
-      //     }
-      //   },
-      // });
+     
 
       // Download chart as PDF functionality
       // Add event listener for button
