@@ -32,18 +32,18 @@
         <li class="nav-item">
           <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
         </li>
-        <li class='nav-item'>
-        <%= link_to "Create Company", new_company_path, class: "nav-link mr-3" %>
-        </li>
+        <% if current_user.company_id == nil %>
+          <li class='nav-item'>
+          <%= link_to "Create Company", new_company_path, class: "nav-link mr-3" %>
+          </li>
+        <% end %>
         <% if current_user.company_id != nil %>
-        <li class="nav-item">
-          <%= link_to "Dashboard", dashboard_path(current_user.company.id), class: "nav-link mr-3" %>
-        </li>
+          <li class="nav-item">
+            <%= link_to "Dashboard", dashboard_path(current_user.company.id), class: "nav-link mr-3" %>
+          </li>
         <% end %>
         <li class="nav-item">
           <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
-          <% else -%>
-          <%= link_to t(".sign_in"), sign_in_path, class:"nav-link" %>
           <% end -%>
         </li>
       </ul>
@@ -64,23 +64,25 @@
           <h1 class="pl-5 pr-5 pt-5 mt-5" style="font-size: 42px;"><strong>Empathise</strong> with your customers <strong>effectively.</strong></h1>
           <p class="hero pl-5 pr-5 pt-4"> Use our emotional analysis tools to gain valuable insights on your customers facial expressions, speech, and text sentiments.</p>
           <p class="hero pl-5 pr-5 pb-3"> Drastically improve the way your business handles the customer experience - <strong>Get started today.</strong></p>
-          <div class="container pl-5 text-center">
-          <%= form_for :user, url: users_path, local:true, :method => 'post' do |form| %>
-            <!--<input id="password-field" class= "form-control mb-2" type="text" name="First Name" placeholder="First Name" style="width: 565px;">-->
-            <%= form.text_field :firstname, class:'form-control mb-2', placeholder:'First Name'%>
-            <!--<input id="password-field" class= "form-control mb-2" type="text" name="Last Name" placeholder="Last Name" style="width: 565px;">-->
-            <%= form.text_field :lastname, class:'form-control mb-2', placeholder:'Last Name' %>
-            <!--<input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">-->
-            <%= form.text_field :email, type: 'email', class:'form-control mb-2', placeholder:'Email' %>
-            <!--<input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">-->
-            <%= form.password_field :password, class:'form-control mb-3', placeholder:'Password' %>
-            <h5>I am a <%= form.select :position, ['Manager', 'Employee'], class:'form-control'%> in my organisation</h5></br>
-            <%= form.submit 'Sign Up', class:'btn btn-primary mb-3' %>
-            <button class="btn btn-outline-success mb-3" type="button"  data-toggle="modal" data-target="#exampleModal">
-              Sign In
-            </button>
-            <% end %>
-          </div>
+          <% if signed_out? %>
+            <div class="container pl-5 text-center">
+              <%= form_for :user, url: users_path, local:true, :method => 'post' do |form| %>
+                <!--<input id="password-field" class= "form-control mb-2" type="text" name="First Name" placeholder="First Name" style="width: 565px;">-->
+                <%= form.text_field :firstname, class:'form-control mb-2', placeholder:'First Name'%>
+                <!--<input id="password-field" class= "form-control mb-2" type="text" name="Last Name" placeholder="Last Name" style="width: 565px;">-->
+                <%= form.text_field :lastname, class:'form-control mb-2', placeholder:'Last Name' %>
+                <!--<input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">-->
+                <%= form.text_field :email, type: 'email', class:'form-control mb-2', placeholder:'Email' %>
+                <!--<input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">-->
+                <%= form.password_field :password, class:'form-control mb-3', placeholder:'Password' %>
+                <h5>I am a <%= form.select :position, ['Manager', 'Employee'], class:'form-control'%> in my organisation</h5></br>
+                <%= form.submit 'Sign Up', class:'btn btn-primary mb-3' %>
+                <button class="btn btn-outline-success mb-3" type="button"  data-toggle="modal" data-target="#exampleModal">
+                  Sign In
+                </button>
+                <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
