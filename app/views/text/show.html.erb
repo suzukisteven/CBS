@@ -7,17 +7,17 @@
           <div class="sidebar-sticky" style="position:fixed;">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
             <ul class="nav flex-column">
-              <%= link_to dashboard_path, class:"underline-none" do %>
+              <%= link_to dashboard_path(@company.id), class:"underline-none" do %>
                 <li class="nav-item mt-4 mb-4 sidebarNavLinks">
                   <i class="fas fa-file-video mr-3 text-warning"></i>Face Analysis
                 </li>
               <% end %>
-              <%= link_to index_path, class:"underline-none" do %>
+              <%= link_to audio_index_path(company_id: @company.id, id:current_user.id), class:"underline-none" do %>
                 <li class="nav-item mb-4 sidebarNavLinks">
                   <i class="fas fa-file-audio mr-3 text-danger"></i>Speech Analysis
                 </li>
               <% end %>
-              <%= link_to text_analyze_path(current_user.id), class:"underline-none" do %>
+              <%= link_to text_analyze_path(company_id: @company.id, id:current_user.id), class:"underline-none" do %>
                 <li class="nav-item mb-4 sidebarNavLinks">
                   <i class="fas fa-font mr-3 text-success"></i>Text Analysis
                 </li>
@@ -25,7 +25,7 @@
               <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-user-tie mr-3 text-primary"></i>Some other stuff</li>
               <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-superscript mr-3 text-info"></i>Wow Another Link</li>
             </ul>
-            <input id="hide-sidebar-btn" class="btn btn-warning mt-3 rounded-circle" type="button" value="<" onclick="toggleNav();">
+            <!-- <input id="hide-sidebar-btn" class="btn btn-warning mt-3 rounded-circle" type="button" value="<" onclick="toggleNav();"> -->
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Saved Reports</h6>
             <ul class="nav flex-column">
               <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>This Week</li>
@@ -39,7 +39,7 @@
         <!-- Chart Section                                        style="left: 15px; -->
         <div id="dashboard-main" class="col-md-8 p-0 w-100 d-main-bg">
           <nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted" style="height: 45px;">
-            <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Emotionly</a>
+            <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Empath</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -58,7 +58,7 @@
                     <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
                   <!-- </li> -->
                   <li class="nav-item">
-                    <%= link_to "How it Works", user_video_path(current_user.id), class: "nav-link  mr-3" %>
+                    <%= link_to "How it Works", nil, class: "nav-link  mr-3" %>
                   </li>
                   <!-- <li class="nav-item border-dark">
                     <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
@@ -78,11 +78,6 @@
                       <%= link_to "Add Company", new_company_path, class: "nav-link mr-3" %>
                     </li>
                     <% end %>
-                  <% end %>
-                  <% if current_user.company_id != nil %>
-                    <li class="nav-item">
-                      <%= link_to "Company Home", company_path(current_user.company_id), class: "nav-link mr-3" %>
-                    </li>
                   <% end %>
                   <li class="nav-item">
                     <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
@@ -188,12 +183,6 @@
         <!-- Right Sidebar Loop through employees and display them for that specific company -->
         <div class="col-md-2 sidebar d-main-bg border-left border-muted pl-0 pr-0">
           <h6 class="sidebar-heading text-muted px-3 mt-4 mb-4">Employees</h6>
-          <hr class="my-3">
-          <h6 class="ml-3 mt-3 text-dgrey"> Bella Bayabos <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
-          <hr class="my-3">
-          <h6 class="ml-3 mt-3 text-dgrey"> Calvin Mai <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
-          <hr class="my-3">
-          <h6 class="ml-3 mt-3 text-dgrey"> Steven Suzuki <span><i class="fas fa-minus-square ml-5 mr-4 text-danger" style="float: right;"></i></span></h6>
           <hr class="my-3">
         </div>
 

@@ -1,9 +1,29 @@
 class TextController < ApplicationController
-    def show
 
+    def show
         @text = Database.new
         @texts = Database.all
+        @company = Company.find(params[:company_id])
+        @employees = @company.users
+        if(Database.last)
+          if(Database.last.text_result)
 
+              Database.last.text_result.each do |key, value|
+                  if key == "sentences_tone"
+                      @document_tone = value
+                  end
+              end
+          else
+              text = Database.last.text
+              tone = tone_analyzer.tone(
+              tone_input: {text: text},
+              content_type: "application/json"
+              )
+              @sentence_tone_score= Database.last.text_result
+              @document_tone = []
+              Database.last.update(text_result:tone.result)
+           end
+        end
     end
 
     def create
@@ -37,7 +57,7 @@ class TextController < ApplicationController
 
         @database = Database.last.to_json
         p @database
-        
+
         respond_to do |format|
           format.html { redirect_to text_analyze_path }
           format.js

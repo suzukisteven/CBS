@@ -199,3 +199,11 @@ canvas {
 .underline-none {
   text-decoration: none!important;
 }
+
+.vid {
+  height: 70%!important;
+}
+
+.audio-analysis-output {
+  list-style: none;
+}

@@ -1,29 +1,207 @@
-<div class="container">
-    <h1>Emotionly &copy; Voice Sentiment Analysis BY CBS</h1>
-    <hr/>
-    <form id="form" class="form-horizontal">
-        <div class="form-group">
-            <label for="input_file" class="col-sm-2 control-label">Upload Audio File</label>
-            <div class="col-sm-10">
-                <input type="file" class="form-control" id="input_file" required>
+<!-- Dashboard Page  -->
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar Element  -->
+    <nav id="dashboard-sidebar" class="col-md-2 sidebar sidebar-color defaultPos">
+      <div class="sidebar-sticky" style="position:fixed;">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Dashboard</h6>
+        <ul class="nav flex-column">
+          <%= link_to dashboard_path(@company.id), class:"underline-none" do %>
+            <li class="nav-item mt-4 mb-4 sidebarNavLinks">
+              <i class="fas fa-file-video mr-3 text-warning"></i>Face Analysis
+            </li>
+          <% end %>
+          <%= link_to audio_index_path, class:"underline-none" do %>
+            <li class="nav-item mb-4 sidebarNavLinks">
+              <i class="fas fa-file-audio mr-3 text-danger"></i>Speech Analysis
+            </li>
+          <% end %>
+          <%= link_to text_analyze_path(@company.id), class:"underline-none" do %>
+            <li class="nav-item mb-4 sidebarNavLinks">
+              <i class="fas fa-font mr-3 text-success"></i>Text Analysis
+            </li>
+          <% end %>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-user-tie mr-3 text-primary"></i>Some other stuff</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-superscript mr-3 text-info"></i>Wow Another Link</li>
+        </ul>
+        <!-- <input id="hide-sidebar-btn" class="btn btn-warning mt-3 rounded-circle" type="button" value="<" onclick="toggleNav();"> -->
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">Saved Reports</h6>
+        <ul class="nav flex-column">
+          <li class="nav-item mt-4 mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>This Week</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Current Month</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Last Quarter</li>
+          <li class="nav-item mb-4 sidebarNavLinks"><i class="fas fa-file-alt mr-3"></i>Last Year </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Chart Section                                        style="left: 15px; -->
+    <div id="dashboard-main" class="col-md-8 p-0 w-100 d-main-bg">
+      <nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted" style="height: 45px;">
+        <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Empath</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+
+          <%#= form_with url: search_companies_path, local: true, class:'form-inline my-2 my-lg-0' , :method => 'post', id: "search-companies"  do |form| %>
+            <%#= form.text_field :searchcompany, class: "form-control mr-sm-2", style:"height:20px;", list: 'list' %>
+            <%#= form.submit "search", class:"btn btn-outline-success btn-sm my-2 my-sm-0" %>
+            <!-- <datalist id="list"></datalist> -->
+          <%# end %>
+
+          <div class="navbar-links">
+            <ul class="navbar-nav mr-auto">
+              <!-- <li class="nav-item"> -->
+                <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+              <!-- </li> -->
+              <li class="nav-item">
+                <%= link_to "How it Works", nil, class: "nav-link  mr-3" %>
+              </li>
+              <!-- <li class="nav-item border-dark">
+                <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to "Speech", index_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to "Text", index_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item"> -->
+                <%= link_to "Pricing", braintree_pricing_path, class: "nav-link mr-3" %>
+              </li>
+              <% if signed_in? -%>
+                <% if signed_in? && current_user.position == 'manager'  && current_user.company_id == nil%>
+                <li class="nav-item">
+                  <%= link_to "Add Company", new_company_path, class: "nav-link mr-3" %>
+                </li>
+                <% end %>
+              <% end %>
+              <li class="nav-item">
+                <%= link_to "Dashboard", dashboard_path, class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
+              </li>
+              <li class="nav-item btn-group" data-behavior='notifications'>
+                 <a class="dropdown-toggle nav-link" type="button" data-behavior='notifications-link' id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-flag text-danger"></i>
+                   <span data-behavior='unread-count'></span>
+                 </a>
+                 <div class="dropdown-menu dropdown-to" aria-labelledby="dropdownMenuButton" data-behavior="notification-items"></div>
+             </li>
+              <li class="nav-item">
+                <% if signed_in? -%>
+                <%= link_to t(".sign_out"), sign_out_path, method: :delete, class:"nav-link" %>
+                <% else -%>
+                <%= link_to t(".sign_in"), sign_in_path, class:"nav-link" %>
+                <% end -%>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+
+      <div class="container-fluid mb-4 border-bottom border-muted">
+        <div class="row">
+          <div class="col-md-6 container mt-3">
+            <h3>Dashboard</h3>
+            <h4><i class="fas fa-user-tie mr-2 text-primary"></i>William Smith: <em>Company Name</em></h4>
+          </div>
+          <div class="col-md-6 container mt-4">
+            <button class="btn btn-outline-primary btn-sm mr-2 mt-3" type="button" name="button" style="float: right;">View Profile</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 container-white mr-3 ml-3 p-1" style="width: 96.7%;">
+        <div class="row">
+          <form id="form" class="form-horizontal">
+            <div class="ml-3">
+              <h3 class="p-2">Upload Audio File</h3>
+              <div class="form-group">
+                <label for="input_file" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <input type="file" class="btn btn-outline-primary p-3" id="input_file" required>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button id="submit" type="submit" class="btn btn-danger mt-3">Start Analysis</button>
+                  </div>
+                </div>
+              </div>
             </div>
+
+          </form>
         </div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button id="submit" type="submit" class="btn btn-danger">Start Analysis</button>
+      </div>
+
+
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <div class="col-md-6 pr-2">
+            <div class="container-white mt-3 mb-3 border-right border-muted shadow p-3" style="height: 400px;">
+              <h3 class="mb-3">Audio Analysis</h3>
+              <!-- <div class="panel panel-default pt-3"> -->
+                  <!-- <div class="panel-heading text-center">Analysis Report</div> -->
+                  <!-- <div class="card"> -->
+                      <ul id="result" class="audio-analysis-output"></ul>
+                  <!-- </div> -->
+              <!-- </div> -->
             </div>
-        </div>
-    </form>
+          </div>
 
-    <hr class="my-4">
+          <div class="col-md-6 pl-2">
+            <div class="container-white mt-3 mb-3 p-0 shadow" style="height: 400px;">
+              <h3 class="p-3">Summary</h3>
+              <!-- <canvas id="myPie" width="300" height="300"></canvas> -->
+            </div>
+          </div>
 
-    <div class="panel panel-default pt-3">
-        <div class="panel-heading text-center">Analysis Report</div>
-        <div class="card">
-            <ul id="result"></ul>
         </div>
+
+      </div>
     </div>
+    <!-- Right Sidebar Loop through employees and display them for that specific company -->
+    <div class="col-md-2 sidebar d-main-bg border-left border-muted pl-0 pr-0">
+      <h6 class="sidebar-heading text-muted px-3 mt-4 mb-4">Employees</h6>
+      <hr class="my-3">
+    </div>
+
+    <!-- JS starts here -->
+    <script type="text/javascript">
+
+  // Toggles the left nav bar to slide in and out (Currently removed on page due to complications with layout)
+  function toggleNav(){
+    console.log($('#dashboard-sidebar').hasClass('slideRight') )
+    if($('#dashboard-sidebar').hasClass('slideRight') || $('#dashboard-sidebar').hasClass('defaultPos')) {
+      if($('#dashboard-sidebar').hasClass('defaultPos')) {
+        document.getElementById('dashboard-sidebar').classList.remove('defaultPos');
+        console.log('default removed')
+      }
+      document.getElementById('dashboard-sidebar').classList.remove('slideRight');
+      document.getElementById('dashboard-main').classList.remove('slideRight');
+      document.getElementById('dashboard-sidebar').classList.add('slideLeft');
+      document.getElementById('dashboard-main').classList.add('slideLeft');
+      console.log('slide left')
+    } else {
+      document.getElementById('dashboard-sidebar').classList.remove('slideLeft');
+      document.getElementById('dashboard-main').classList.remove('slideLeft');
+      document.getElementById('dashboard-sidebar').classList.add('slideRight');
+      document.getElementById('dashboard-main').classList.add('slideRight');
+      console.log('slide right')
+    }
+  };
+  </script>
+
+  </div>
 </div>
 
 <script type="text/javascript">
