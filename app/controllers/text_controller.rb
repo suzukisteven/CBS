@@ -1,10 +1,14 @@
 class TextController < ApplicationController
+<<<<<<< HEAD
 
+=======
+>>>>>>> fixed up whacky routes
     def show
         @text = Database.new
         @texts = Database.all
         @company = Company.find(params[:company_id])
         @employees = @company.users
+<<<<<<< HEAD
         if(Database.last)
           if(Database.last.text_result)
 
@@ -24,6 +28,8 @@ class TextController < ApplicationController
               Database.last.update(text_result:tone.result)
            end
         end
+=======
+>>>>>>> fixed up whacky routes
     end
 
     def create
