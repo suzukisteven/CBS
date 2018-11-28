@@ -157,12 +157,10 @@
                       <% @document_tone.each do |obj| %>
                           <% obj.each do |key, value| %>
                               <% if key == "text"  %>
-                                  <% if value.empty?%>
-                                  <%else%>
                                   <strong>Sentence:</strong> <%= value %><br>                        
-                                  <% end %>
                               <% elsif key == "tones"%>
                                   <% if value.empty?%>
+                                  <strong>Emotion:</strong>Neutral<hr>
                                   <% end %>
                                   <% next if value.empty? %>
                                   <% value[0].each do |key, value| %>

@@ -3,11 +3,10 @@ let data = JSON.parse('<%= raw @database %>')
 for(let i=0;i<data.sentences_tone.length;i++){
     for(let a=0;a<data.sentences_tone[i].tones.length;a++){
     if (data.sentences_tone[i].tones[0]== null){
-        // alert('hEY');
-        // myPie.data.datasets[0].data.push(30);
-        // myPie.data.labels.push('Neutral');
-        // myPie.data.datasets[0].backgroundColor.push('grey'); 
-        // myPie.update();
+        myPie.data.datasets[0].data.push(30);
+        myPie.data.labels.push('Neutral');
+        myPie.data.datasets[0].backgroundColor.push('grey'); 
+        myPie.update();
 
     }
     else{
