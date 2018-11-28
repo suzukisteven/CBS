@@ -1,2 +1,44 @@
 console.log('hello')
 let data = JSON.parse('<%= raw @database %>')
+for(let i=0;i<data.sentences_tone.length;i++){
+    for(let a=0;a<data.sentences_tone[i].tones.length;a++){
+    if (data.sentences_tone[i].tones[0]== null){
+        // alert('hEY');
+        // myPie.data.datasets[0].data.push(30);
+        // myPie.data.labels.push('Neutral');
+        // myPie.data.datasets[0].backgroundColor.push('grey'); 
+        // myPie.update();
+
+    }
+    else{
+        if(data.sentences_tone[i].tones[a].tone_id=='analytical'){
+        myPie.data.datasets[0].backgroundColor.push('rgba(0,240,0,0.5)'); 
+        }
+        else if(data.sentences_tone[i].tones[a].tone_id=='sadness'){
+            myPie.data.datasets[0].backgroundColor.push('rgba(39,128,231,0.5)');
+        }
+        else if(data.sentences_tone[i].tones[a].tone_id=='joy'){
+            myPie.data.datasets[0].backgroundColor.push('rgba(240,243,57,0.5)'); 
+        }
+        else if(data.sentences_tone[i].tones[a].tone_id =='tentative'){
+            myPie.data.datasets[0].backgroundColor.push('rgba(320,40,0,0.5)'); 
+        }
+        else if(data.sentences_tone[i].tones[a].tone_id=='confident'){
+            myPie.data.datasets[0].backgroundColor.push('rgba(110,25,151,0.5)'); 
+        }
+        else if(data.sentences_tone[i].tones[a].tone_id=='fear'){
+            myPie.data.datasets[0].backgroundColor.push('rgba(235,160,30,0.5)'); 
+        }
+    myPie.data.datasets[0].data.push(data.sentences_tone[i].tones[a].score*100);
+    myPie.data.labels.push(data.sentences_tone[i].tones[a].tone_name);
+    console.log(data.sentences_tone[i].tones[a].tone_name)
+    console.log(data.sentences_tone[i].tones[a].score)
+    myPie.update();
+
+
+    }
+    }
+}
+
+// let canvas = document.getElementById('myChart');
+// let ctx = canvas.getContext('2d');
