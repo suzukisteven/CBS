@@ -161,7 +161,7 @@
           <div class="col-md-6 pl-2">
             <div class="container-white mt-3 mb-3 p-0 shadow" style="height: 400px;">
               <h3 class="p-3">Summary</h3>
-              <!-- <canvas id="myPie" width="300" height="300"></canvas> -->
+                  <canvas id="audioPie" class="col-11"></canvas>
             </div>
           </div>
 
@@ -336,6 +336,36 @@
     }
     function Show(json)
     {
+       // Audio Analysis
+        let pie = document.getElementById('audioPie');
+        let ctx2 = pie.getContext('2d');
+         var piedata = {
+         datasets: [{
+             data: [],
+             backgroundColor: ['rgba(240,243,57,0.5)','rgba(39,128,231,0.5)','rgba(250,0,0,0.5)','rgba(0,240,0,0.5)','rgba(110,25,151,0.5)','rgba(218,29,235,0.5)','rgba(235,160,30,0.5)','rgba(155,155,155,0.5)'],
+             borderColor: ['yellow','cornflowerblue','red','green','purple','pink','orange','grey']
+         }],
+
+         // These labels appear in the legend and in the tooltips when hovering different arcs
+         labels: [
+             'Arousal',
+             'Temper',
+             'Sadness/Displeasure',
+             'Valence'
+          
+         ]
+};
+        var myPie = new Chart(ctx2, {
+            type: 'bar',
+            data: piedata,
+            options: {
+              responsive: false,
+              legend: {
+                display:false,
+                position: 'right'
+              }
+            },
+          });
         var x = JSON.parse(json);
         // var y = (x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)
         console.log(x.result);
@@ -356,9 +386,17 @@
         if(x.result)$('#result').append("<li>" + "Sadness/Displeasure: " + (x.result.analysisSummary.AnalysisResult["Sadness/Displeasure"].Mode) + "</li>");
         if(x.result)$('#result').append("<li>" + "Sadness/Displeasure Score: " + (x.result.analysisSegments[0].analysis["Sadness/Displeasure"].Score) + "</li>");
         if(x.result)$('#result').append("<li>" + "Valence Score: " + (x.result.analysisSegments[0].analysis["Valence"].Score) + "</li>");
-        if(x.result)$('#result').append("<li>" + "Sadness/Displeasure: " + (x.result.analysisSummary.AnalysisResult["Sadness/Displeasure"].Mode) + "</li>");
+        
+            if(x.result){myPie.data.datasets[0].data.push(x.result.analysisSegments[0].analysis["Arousal"].Score)};
+            if(x.result){myPie.data.datasets[0].data.push(x.result.analysisSegments[0].analysis["Temper"].Score)};
+            if(x.result){myPie.data.datasets[0].data.push(x.result.analysisSegments[0].analysis["Sadness/Displeasure"].Score)};
+            myPie.update();
 
-        // $('#result').append("<li>" + x.result.analysisSummary.AnalysisResult.Emotion_group.Mode);
-        // console.log(x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)
-    }
+
+       
+
+
+                // $('#result').append("<li>" + x.result.analysisSummary.AnalysisResult.Emotion_group.Mode);
+                // console.log(x.result.analysisSummary.AnalysisResult.Emotion_group.Mode)
+            }
 </script>
