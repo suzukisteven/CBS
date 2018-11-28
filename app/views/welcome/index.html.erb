@@ -1,6 +1,6 @@
 <!-- Landing Page -->
 <nav class="customnav navbar navbar-expand-lg navbar-dark sticky-top bg-white border-bottom border-muted">
-  <a class="navbar-brand text-dark" href="/"><i class="fas fa-dice-d20 mr-1"></i>EmBOOM</a>
+  <a class="navbar-brand text-dark" href="/"><i class="fas fa-brain mr-1"></i>Empath</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -8,10 +8,10 @@
   <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
 
     <%= form_with url: search_companies_path, local: true, class:'form-inline my-2 my-lg-0' , :method => 'post', id: "search-companies"  do |form| %>
-      <%= form.text_field :searchcompany, class: "form-control mr-sm-2", list: 'list' %>
-      <%= form.submit "search", class:"btn btn-outline-success my-2 my-sm-0" %>
+      <%= form.text_field :searchcompany, class: "form-control mr-sm-2", list: 'list', id:"main-search", placeholder:"Search for a Company" %>
+      <%= form.submit "Search", class:"btn btn-outline-primary my-2 my-sm-0" %>
       <datalist id="list"></datalist>
-    <% end %> 
+    <% end %>
 
     <div class="navbar-links">
       <ul class="navbar-nav mr-auto">
@@ -19,9 +19,6 @@
           <%#= link_to "Profile", user_path(current_user.id), class: "nav-link mr-3" %>
         <!-- </li> -->
         <% if signed_in? -%>
-        <li class="nav-item">
-          <%= link_to "How it Works", user_video_path(current_user.id), class: "nav-link  mr-3" %>
-        </li>
         <li class="nav-item">
         <!-- <li class="nav-item">
           <%#= link_to "Facial Expression", video_path, class: "nav-link  mr-3" %>
@@ -76,10 +73,10 @@
             <!--<input id="username-field" class= "form-control mb-2" type="text" name="Email" placeholder="E-mail" style="width: 565px;">-->
             <%= form.text_field :email, type: 'email', class:'form-control mb-2', placeholder:'Email' %>
             <!--<input id="password-field" class= "form-control mb-2" type="password" name="Password" placeholder="Password" style="width: 565px;">-->
-            <%= form.password_field :password, class:'form-control mb-2', placeholder:'Password' %>
-            <%= form.select :position, ['Manager', 'Employee'], class:'form-control mb-2'%>
-            <%= form.submit 'Sign Up', class:'btn btn-primary mt-3 mb-3' %>
-            <button class="btn btn-outline-success mt-3 mb-3" type="button"  data-toggle="modal" data-target="#exampleModal">
+            <%= form.password_field :password, class:'form-control mb-3', placeholder:'Password' %>
+            <h5>I am a <%= form.select :position, ['Manager', 'Employee'], class:'form-control'%> in my organisation</h5></br>
+            <%= form.submit 'Sign Up', class:'btn btn-primary mb-3' %>
+            <button class="btn btn-outline-success mb-3" type="button"  data-toggle="modal" data-target="#exampleModal">
               Sign In
             </button>
             <% end %>
@@ -161,8 +158,8 @@ function autocomplete(){
   $.ajax({
     url: '/companies/search',
     type: 'POST',
-    data: $("#search-companies").serialize(), 
-    dataType: 'json', 
+    data: $("#search-companies").serialize(),
+    dataType: 'json',
     error: function() {
         console.log("Something went wrong");
     },
@@ -185,4 +182,4 @@ function autocomplete(){
   });
 }
 })
-</script> 
+</script>

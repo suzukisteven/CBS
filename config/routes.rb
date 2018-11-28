@@ -5,11 +5,12 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   # Individual pages Routes
-  get '/index' => "audio#index"
-  get "/companies/:id/dashboard/show" => "dashboard#show", as: "dashboard"
-  get '/users/:id/video' => "video#show", as: 'user_video'
+  get '/companies/:company_id/users/:id/index' => "audio#index", as: "audio_index"
+  get 'companies/:id/dashboard/show' => "dashboard#show", as: "dashboard"
+  # get '/users/:id/video' => "video#show", as: 'user_video'
+  get 'companies/:company_id/users/:id/text_analysis' => "text#show", as: "text_analyze"
 
-  get 'users/:id/texts'=>'text#show', as: "text_analyze"
+  # get 'users/:id/texts'=>'text#show', as: "text_analyze"
  post 'users/:id/texts'=>'text#create', as:"text_upload"
   # Braintree Payment Routes
   get 'braintree/new'
@@ -38,14 +39,14 @@ Rails.application.routes.draw do
 
   resources :users, controller:'users'
   resources :companies, controller:'company'
-  
+
   resources :notifications do
     collection do
       post :mark_as_read
     end
   end
 
-  resources :companies do 
+  resources :companies do
     resource :request, controller: 'request'
   end
 
@@ -54,7 +55,7 @@ Rails.application.routes.draw do
   post 'braintree/checkout'
   post 'braintree/checkout_six'
   post 'braintree/checkout_one'
-  get 'companies/:company_id/users/:id/confirm' => 'users#confirm', as:'confirm_user' 
+  get 'companies/:company_id/users/:id/confirm' => 'users#confirm', as:'confirm_user'
   get 'companies/:id/employees_index' => 'company#employees_index', as:'employees_index'
   patch 'users/:id/remove_employee' => 'company#remove_employee', as:'remove_employee'
   get '/subscribe_to_plan' => 'braintree#subscribe_to_plan', as:'subscribe_to_plan'
