@@ -19,4 +19,8 @@ class SessionsController < Clearance::SessionsController
       sign_in(user)
       redirect_to @next, :success => @notice
     end
+  
+    def url_after_destroy
+      root_url
+    end
 end

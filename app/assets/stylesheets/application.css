@@ -88,6 +88,10 @@ h3 {
   background-color: #354052;
 }
 
+.sidebar {
+  z-index: 0;
+}
+
 .sidebarNavLinks {
   color: #a0abbe;
 }
