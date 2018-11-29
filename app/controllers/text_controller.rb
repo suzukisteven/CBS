@@ -2,7 +2,7 @@ class TextController < ApplicationController
 
     def show
         @text = Database.new
-        @texts = Database.all
+        @texts = User.find(params[:id]).databases
         @company = Company.find(params[:company_id])
         @employees = @company.users
 
